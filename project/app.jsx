@@ -247,11 +247,11 @@ const SERVICES = {
   },
   beard: {
     label: "Beard",
-    blurb: "Sculpted edges, hot-towel finishes, and shapes tailored to your face — every time.",
+    blurb: "Sculpted edges, smooth finishes, and shapes tailored to your face — every time.",
     items: [
       { name: "Beard Trim", sub: "Maintain your shape", tone: "amber", glyph: <Icon.Razor size={42} /> },
       { name: "Beard Shaping", sub: "Sculpt & line-up", tone: "warm", glyph: <Icon.Scissors size={42} /> },
-      { name: "Clean Shave", sub: "Hot-towel, smooth finish", tone: "steel", glyph: <Icon.Razor size={42} /> },
+      { name: "Clean Shave", sub: "Smooth finish", tone: "steel", glyph: <Icon.Razor size={42} /> },
     ],
   },
   skin: {
@@ -378,7 +378,7 @@ const GALLERY = [
   { tone: "cool",  small: "FACIAL / 04", caption: "Clean up + glow" },
   { tone: "default", small: "WASH", caption: "Wash & blow-dry" },
   { tone: "warm", small: "BEFORE / AFTER", caption: "Wedding groom" },
-  { tone: "steel", small: "DETAIL", caption: "Hot-towel finish" },
+  { tone: "steel", small: "DETAIL", caption: "Smooth finish" },
   { tone: "amber", small: "STYLE", caption: "Side-part finish" },
   { tone: "cool",  small: "INTERIOR / 02", caption: "Mirror wall" },
   { tone: "default", small: "PROCESS", caption: "Clipper detail" },
