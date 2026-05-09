@@ -1,0 +1,24 @@
+# SMART Men's Salon — robots.txt
+# Allow all crawlers including AI search agents (Perplexity, ChatGPT, Gemini, Claude)
+
+User-agent: *
+Allow: /
+
+# AI / GEO crawlers — explicitly allowed
+User-agent: GPTBot
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: ClaudeBot
+Allow: /
+
+User-agent: Google-Extended
+Allow: /
+
+User-agent: CCBot
+Allow: /
+
+# Sitemap
+Sitemap: https://smartsalon.co.in/sitemap.xml
