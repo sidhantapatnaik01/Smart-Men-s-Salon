@@ -764,13 +764,13 @@ function Visit({ t }) {
               <a href="#book" className="btn btn-wa">
                 <Icon.WhatsApp size={16}/> WhatsApp Us
               </a>
-              <a href="#" className="btn btn-light">
+              <a href="https://www.google.com/maps/dir/?api=1&destination=19.2296,82.5468" target="_blank" rel="noopener" className="btn btn-light">
                 <Icon.Map size={15}/> Get Directions
               </a>
-              <a href="#" className="btn btn-light">
+              <a href="https://www.instagram.com/smartmenssalon" target="_blank" rel="noopener" className="btn btn-light">
                 <Icon.Instagram size={15}/> Instagram
               </a>
-              <a href="#" className="btn btn-light">
+              <a href="https://www.google.com/maps/search/?api=1&query=SMART+Men%27s+Salon+Nabarangpur" target="_blank" rel="noopener" className="btn btn-light">
                 <Icon.Google size={15}/> Reviews
               </a>
             </div>
