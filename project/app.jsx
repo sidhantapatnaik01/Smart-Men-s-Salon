@@ -429,7 +429,7 @@ const ALL_SERVICES = [
   "Clean Up", "Skin Brightening", "Facial",
   "Groom Package", "Wedding Groom Package",
 ];
-const TIME_SLOTS = ["10:00 AM", "12:00 PM", "02:00 PM", "04:00 PM", "06:00 PM", "08:00 PM"];
+// TIME_SLOTS is dynamically computed below
 
 function getNextDays(n = 7) {
   const days = [];
@@ -453,7 +453,7 @@ function Booking({ preselectedService, onClearPreselect, t }) {
   const [phone, setPhone] = useState("");
   const [services, setServices] = useState([]);
   const [day, setDay] = useState(days[0].iso);
-  const [time, setTime] = useState("06:00 PM");
+  const [time, setTime] = useState("07:00 AM");
   const [notes, setNotes] = useState("");
 
   useEffect(() => {
@@ -465,6 +465,19 @@ function Booking({ preselectedService, onClearPreselect, t }) {
       if (el) el.scrollIntoView({behavior: "smooth", block: "start"});
     }
   }, [preselectedService]);
+
+  const availableSlots = useMemo(() => {
+    const isThursday = day && new Date(day).getDay() === 4;
+    return isThursday 
+      ? ["07:00 AM", "09:00 AM", "10:30 AM", "12:00 PM"] 
+      : ["07:00 AM", "09:00 AM", "11:00 AM", "01:00 PM", "03:00 PM", "05:00 PM", "07:00 PM", "08:30 PM"];
+  }, [day]);
+
+  useEffect(() => {
+    if (!availableSlots.includes(time)) {
+      setTime(availableSlots[0]);
+    }
+  }, [availableSlots, time]);
 
   const toggleService = (s) =>
     setServices(prev => prev.includes(s) ? prev.filter(x => x !== s) : [...prev, s]);
@@ -569,7 +582,7 @@ ${notes || "—"}`;
                   ))}
                 </div>
                 <div className="scroll-x no-scrollbar">
-                  {TIME_SLOTS.map(t => (
+                  {availableSlots.map(t => (
                     <button
                       key={t}
                       type="button"
