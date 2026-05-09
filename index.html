@@ -2420,8 +2420,20 @@ function Footer({ t }) {
 
 /* ============== Sticky controls ============== */
 function StickyMobile({ t }) {
+  const [show, setShow] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      // Show sticky CTA after scrolling past 300px (approx hero top section)
+      setShow(window.scrollY > 300);
+    };
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    handleScroll(); // Check on mount
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
   return (
-    <>
+    <div style={{ opacity: show ? 1 : 0, transition: "opacity 0.3s ease", pointerEvents: show ? "auto" : "none" }}>
       <a href="#book" className="fab" aria-label="Book on WhatsApp">
         <Icon.WhatsApp size={26}/>
       </a>
@@ -2433,7 +2445,7 @@ function StickyMobile({ t }) {
           <Icon.WhatsApp size={16}/> Book on WhatsApp
         </a>
       </div>
-    </>
+    </div>
   );
 }
 
