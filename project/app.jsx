@@ -133,7 +133,10 @@ const Icon = {
 };
 
 /* ============== Photo Placeholder ============== */
-function Photo({ tone = "default", label, glyph = null, style }) {
+function Photo({ tone = "default", label, glyph = null, style, src }) {
+  if (src) {
+    return <img src={src} alt={label || ""} className="photo" style={{ objectFit: "cover", width: "100%", height: "100%", ...style }} />;
+  }
   const cls = "photo " + (tone !== "default" ? tone : "");
   return (
     <div className={cls} style={style}>
@@ -175,7 +178,7 @@ function Hero({ t }) {
   return (
     <header className="hero" data-screen-label="Hero">
       <div className="bg">
-        <Photo tone="warm" label="HERO · GROOMING SHOT · 1.0" style={{position:"absolute", inset:0}}
+        <Photo src="images/hero.png" tone="warm" label="HERO · GROOMING SHOT · 1.0" style={{position:"absolute", inset:0}}
           glyph={
             <svg width="40%" viewBox="0 0 100 140" fill="none" stroke="rgba(255,255,255,0.06)" strokeWidth="0.4">
               <ellipse cx="50" cy="44" rx="20" ry="24"/>
@@ -239,7 +242,7 @@ const SERVICES = {
     label: "Hair",
     blurb: "Cuts, colour-safe styling, and treatments that hold their shape long after you leave the chair.",
     items: [
-      { name: "Haircut", sub: "Classic, fade, taper, scissor", tone: "steel", glyph: <Icon.Scissors size={42} /> },
+      { src: "images/hair.png", name: "Haircut", sub: "Classic, fade, taper, scissor", tone: "steel", glyph: <Icon.Scissors size={42} /> },
       { name: "Hair Styling", sub: "Wash, blow-dry & finish", tone: "cool", glyph: <Icon.Sparkle size={42} /> },
       { name: "Hair Straightening", sub: "Smoothening & keratin", tone: "default", glyph: <Icon.Bolt size={42} /> },
       { name: "Hair Treatment", sub: "Scalp & dandruff therapy", tone: "warm", glyph: <Icon.Drop size={42} /> },
@@ -249,7 +252,7 @@ const SERVICES = {
     label: "Beard",
     blurb: "Sculpted edges, smooth finishes, and shapes tailored to your face — every time.",
     items: [
-      { name: "Beard Trim", sub: "Maintain your shape", tone: "amber", glyph: <Icon.Razor size={42} /> },
+      { src: "images/beard.png", name: "Beard Trim", sub: "Maintain your shape", tone: "amber", glyph: <Icon.Razor size={42} /> },
       { name: "Beard Shaping", sub: "Sculpt & line-up", tone: "warm", glyph: <Icon.Scissors size={42} /> },
       { name: "Clean Shave", sub: "Smooth finish", tone: "steel", glyph: <Icon.Razor size={42} /> },
     ],
@@ -258,7 +261,7 @@ const SERVICES = {
     label: "Skin",
     blurb: "Quick, no-fuss skincare for men — designed to look natural, never overdone.",
     items: [
-      { name: "Clean Up", sub: "Refresh & deep cleanse", tone: "cool", glyph: <Icon.Drop size={42} /> },
+      { src: "images/skin.png", name: "Clean Up", sub: "Refresh & deep cleanse", tone: "cool", glyph: <Icon.Drop size={42} /> },
       { name: "Skin Brightening", sub: "Even tone, healthy glow", tone: "default", glyph: <Icon.Sparkle size={42} /> },
       { name: "Facial", sub: "Massage, mask, finish", tone: "warm", glyph: <Icon.Heart size={42} /> },
     ],
@@ -268,7 +271,7 @@ const SERVICES = {
     blurb: "Full-service grooming sessions for the days that matter most.",
     items: [
       { name: "Groom Package", sub: "Hair · Beard · Clean Up", tone: "amber", glyph: <Icon.Crown size={42} /> },
-      { name: "Wedding Groom Package", sub: "Full-day premium experience", tone: "warm", glyph: <Icon.Crown size={42} /> },
+      { src: "images/package.png", name: "Wedding Groom Package", sub: "Full-day premium experience", tone: "warm", glyph: <Icon.Crown size={42} /> },
     ],
   },
 };
@@ -351,7 +354,7 @@ function ServiceShowcase({ onBookService }) {
               style={{ animationDelay: `${idx * 60}ms` }}
               onClick={() => onBookService(it.name)}
             >
-              <Photo tone={it.tone} label={it.name.toUpperCase().replace(/\s/g,"·")} glyph={it.glyph} />
+              <Photo src={it.src} tone={it.tone} label={it.name.toUpperCase().replace(/\s/g,"·")} glyph={it.glyph} />
               <div className="overlay"></div>
               <span className="num">0{idx+1}</span>
               <span className="arrow"><Icon.Arrow size={16} rotate={-45}/></span>
@@ -372,11 +375,11 @@ function ServiceShowcase({ onBookService }) {
 
 /* ============== Moving Gallery ============== */
 const GALLERY = [
-  { tone: "warm", small: "FADE / 02", caption: "Mid-fade, scissor finish" },
-  { tone: "steel", small: "BEARD / 01", caption: "Beard line-up" },
-  { tone: "amber", small: "INTERIOR", caption: "Studio chair · 03" },
-  { tone: "cool",  small: "FACIAL / 04", caption: "Clean up + glow" },
-  { tone: "default", small: "WASH", caption: "Wash & blow-dry" },
+  { src: "images/gallery1.png", tone: "warm", small: "FADE / 02", caption: "Mid-fade, scissor finish" },
+  { src: "images/gallery2.png", tone: "steel", small: "BEARD / 01", caption: "Beard line-up" },
+  { src: "images/gallery3.png", tone: "amber", small: "INTERIOR", caption: "Studio chair · 03" },
+  { src: "images/gallery4.png", tone: "cool",  small: "FACIAL / 04", caption: "Clean up + glow" },
+  { src: "images/gallery5.png", tone: "default", small: "WASH", caption: "Wash & blow-dry" },
   { tone: "warm", small: "BEFORE / AFTER", caption: "Wedding groom" },
   { tone: "steel", small: "DETAIL", caption: "Smooth finish" },
   { tone: "amber", small: "STYLE", caption: "Side-part finish" },
@@ -405,7 +408,7 @@ function Gallery({ t }) {
         <div className="gallery-track">
           {[...GALLERY, ...GALLERY].map((g, i) => (
             <div key={i} className="gallery-card">
-              <Photo tone={g.tone} style={{position:"absolute", inset:0}}/>
+              <Photo src={g.src} tone={g.tone} style={{position:"absolute", inset:0}}/>
               <div className="scrim"></div>
               <div className="caption">
                 <small>{g.small}</small>
