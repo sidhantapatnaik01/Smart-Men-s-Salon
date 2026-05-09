@@ -32,6 +32,10 @@
 <meta property="og:url" content="https://smartsalon.co.in/" />
 <meta property="og:site_name" content="SMART Men's Salon" />
 <meta property="og:locale" content="en_IN" />
+<meta property="og:image" content="https://smartsalon.co.in/logo.png" />
+<meta property="og:image:width" content="500" />
+<meta property="og:image:height" content="500" />
+<meta property="og:image:type" content="image/png" />
 
 <meta property="business:contact_data:street_address" content="Pathan Street, Durga Rao" />
 <meta property="business:contact_data:locality" content="Nabarangpur" />
@@ -71,6 +75,7 @@
   "@id": "https://smartsalon.co.in/#salon",
   "name": "SMART Men's Salon",
   "alternateName": "SMART Salon",
+  "image": "https://smartsalon.co.in/logo.png",
   "description": "Premium men's grooming studio offering haircuts, beard styling, clean shaves, facials, hair treatments, and wedding groom packages. Skilled senior stylists, hygienic environment, single-use blades.",
   "url": "https://smartsalon.co.in/",
 
@@ -828,13 +833,12 @@ a { color: inherit; text-decoration: none; }
   .logo-mark .submark { display: none; }
 }
 .logo-mark .badge {
-  width: 32px; height: 32px; border-radius: 8px;
-  background: var(--blue);
-  display: flex; align-items: center; justify-content: center;
-  color: #fff;
-  font-weight: 800;
-  font-size: 14px;
-  letter-spacing: -.02em;
+  display: none;
+}
+.logo-mark .logo-img {
+  height: 44px;
+  width: auto;
+  border-radius: 4px;
 }
 .logo-mark.dark { color: var(--ink); }
 .logo-mark.dark .badge { background: var(--ink); }
@@ -1708,8 +1712,7 @@ function TopNav() {
     <nav className="topnav">
       <div className="container row">
         <a href="#" onClick={scrollToTop} className="logo-mark" style={{textDecoration:'none'}}>
-          <span className="badge">S</span>
-          <span>SMART <span style={{opacity:.6, fontWeight: 500}}>Men's Salon</span></span>
+          <img src="logo.png" alt="SMART Men's Salon" className="logo-img" />
         </a>
         <div className="links">
           <a href="#services">Services</a>
@@ -2371,8 +2374,7 @@ function Footer({ t }) {
         <div className="grid">
           <div>
             <div className="logo-mark" style={{marginBottom: 18}}>
-              <span className="badge">S</span>
-              <span>SMART <span style={{opacity:.6, fontWeight: 500}}>Men's Salon</span></span>
+              <img src="logo.png" alt="SMART Men's Salon" className="logo-img" />
             </div>
             <p style={{maxWidth: 380, color:"rgba(255,255,255,.55)", fontSize: 14, margin: 0}}>
               A modern grooming studio for men. Cuts, beards, skin and packages — booked on WhatsApp, done in the chair.
