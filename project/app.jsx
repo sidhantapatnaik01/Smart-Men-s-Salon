@@ -6,11 +6,11 @@ const TWEAK_DEFAULTS = /*EDITMODE-BEGIN*/{
   "headlineLine1": "LOOK SHARP.",
   "headlineLine2": "FEEL DIFFERENT.",
   "heroSub": "Know what you're getting before you walk in. Browse services, pick your slot, and confirm on WhatsApp — no calls, no waiting.",
-  "phone": "+91 99999 99999",
-  "whatsappNumber": "919999999999",
-  "address": "No. 14, 27th Main, HSR Sector 1",
-  "city": "Bengaluru, KA 560102 · India",
-  "hours": "Mon — Sun · 09:00 to 22:00",
+  "phone": "+91 94378 50989",
+  "whatsappNumber": "919437850989",
+  "address": "Pathan Street",
+  "city": "Nabarangpur, Odisha 764059 · India",
+  "hours": "07:00 — 21:00 (Thu till 13:00)",
   "showTicker": true,
   "showGallery": true
 }/*EDITMODE-END*/;
@@ -193,7 +193,7 @@ function Hero({ t }) {
         <div className="eyebrow" style={{color:"rgba(255,255,255,.55)", marginBottom: 18}}>
           <span style={{display:"inline-flex", alignItems:"center", gap: 8}}>
             <span style={{width:6, height:6, borderRadius:99, background:"#25D366", boxShadow:"0 0 0 4px rgba(37,211,102,.18)"}}></span>
-            OPEN TODAY · 09:00 — 22:00
+            OPEN TODAY · {t.hours}
           </span>
         </div>
         <h1 className="display">
@@ -738,7 +738,7 @@ function Visit({ t }) {
               icon={<Icon.Clock/>}
               label="Open Hours"
               value={t.hours}
-              caption="Last booking 9:30 PM"
+              caption="Last booking 30 mins before close"
             />
             <InfoBlock
               icon={<Icon.Phone/>}
@@ -848,8 +848,8 @@ function Footer({ t }) {
           <div>
             <h4>Visit</h4>
             <ul>
-              <li><a href="#visit">HSR Layout, Bengaluru</a></li>
-              <li><a href="#visit">09:00 — 22:00</a></li>
+              <li><a href="#visit">{t.address}, Nabarangpur</a></li>
+              <li><a href="#visit">{t.hours}</a></li>
               <li><a href={`tel:${t.phone.replace(/\s/g,'')}`}>{t.phone}</a></li>
             </ul>
           </div>
