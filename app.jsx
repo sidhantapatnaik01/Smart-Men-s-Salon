@@ -356,7 +356,7 @@ function TopNav() {
           <a href="#book">Book</a>
           <a href="#visit">Visit</a>
         </div>
-        <a href="#book" className="btn btn-dark btn-sm" style={{height: 40}}>
+        <a href="#book" className="btn btn-dark btn-sm" style={{height: 40, color: '#fff'}}>
           <Icon.WhatsApp size={14} /> Book Now
         </a>
       </div>
