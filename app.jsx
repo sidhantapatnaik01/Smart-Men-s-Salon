@@ -438,26 +438,17 @@ function Hero({ t }) {
           </span>
         </div>
         <div style={{ position: 'relative', width: '360px', height: '144px', marginBottom: 16 }}>
-          <style>{`
-            @keyframes glowGradient {
-              0% { background-position: 0% 50%; }
-              50% { background-position: 100% 50%; }
-              100% { background-position: 0% 50%; }
-            }
-          `}</style>
-          <div style={{
-            position: 'absolute',
-            inset: '-10px',
-            background: 'linear-gradient(90deg, #00cfff, #0055ff, #00aaff, #0022aa)',
-            backgroundSize: '300% 300%',
-            filter: 'blur(25px)',
-            opacity: 0.7,
-            borderRadius: '20px',
-            zIndex: 0,
-            animation: 'glowGradient 6s ease infinite'
-          }} />
-          <div style={{ width: '360px', height: '144px', overflow: 'hidden', position: 'relative', zIndex: 1 }}>
-            <img src="images/logo-large.webp" alt="Smart Men's Salon" style={{ width: '360px', position: 'absolute', top: '-192px' }} />
+          <div style={{ width: '360px', height: '144px', overflow: 'hidden', position: 'relative' }}>
+            <img 
+              src="images/logo-large.webp" 
+              alt="Smart Men's Salon" 
+              style={{ 
+                width: '360px', 
+                position: 'absolute', 
+                top: '-192px',
+                filter: 'drop-shadow(0px 4px 12px rgba(0,0,0,0.9)) drop-shadow(0px 10px 30px rgba(0,0,0,0.7))'
+              }} 
+            />
           </div>
         </div>
         <h1 className="display" style={{ marginBottom: 24 }}>
