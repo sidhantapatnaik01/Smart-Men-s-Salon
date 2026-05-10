@@ -459,7 +459,7 @@ const CelestialBloomShader = () => {
         float distorted  = radius + bloomShape * 0.1 * fbm(uv * 3.0 + t * 0.1);
 
         vec3 deepSpace = vec3(0.0, 0.0, 0.0);
-        vec3 nebula    = vec3(0.145, 0.388, 0.921); // Blue glow to match theme
+        vec3 nebula    = vec3(0.15, 0.8, 0.4); // Emerald/Green glow
         vec3 star      = vec3(1.0, 1.0, 1.0);
 
         float mixVal  = smoothstep(0.1, 0.6, distorted);
