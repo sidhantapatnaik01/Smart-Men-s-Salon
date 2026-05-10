@@ -1,4 +1,7 @@
 
+import React from 'react';
+import { createRoot } from 'react-dom/client';
+
 // ── useTweaks ───────────────────────────────────────────────────────────────
 function useTweaks(defaults) {
   const [values, setValues] = React.useState(defaults);
@@ -362,7 +365,7 @@ function TopNav() {
     <nav className={"topnav " + (menuOpen ? "is-menu-open" : "")}>
       <div className="container row">
         <a href="#" onClick={scrollToTop} className="logo-mark" style={{textDecoration:'none'}}>
-          <img src="logo.png" alt="SMART Men's Salon" className="logo-img" style={{ height: '60px' }} />
+          <img src="logo.webp" alt="SMART Men's Salon" className="logo-img" style={{ height: '60px' }} />
         </a>
         <div className="links">
           {links.map(l => (
@@ -397,7 +400,7 @@ function TopNav() {
 /* ============== Hero ============== */
 function Hero({ t }) {
   const [currentBg, setCurrentBg] = React.useState(0);
-  const images = ["images/hero.png", "images/Salon Exterior.png"];
+  const images = ["images/hero.webp", "images/Salon Exterior.webp"];
 
   React.useEffect(() => {
     const interval = setInterval(() => {
@@ -421,7 +424,7 @@ function Hero({ t }) {
               inset:0, 
               opacity: currentBg === index ? 1 : 0,
               transition: 'opacity 1s ease-in-out',
-              objectPosition: src === "images/Salon Exterior.png" ? "bottom" : (src === "images/hero.png" ? "right center" : "center")
+              objectPosition: src === "images/Salon Exterior.webp" ? "bottom" : (src === "images/hero.webp" ? "right center" : "center")
             }}
           />
         ))}
@@ -482,36 +485,36 @@ const SERVICES = {
     label: "Hair",
     blurb: "Cuts, colour-safe styling, and treatments that hold their shape long after you leave the chair.",
     items: [
-      { src: "images/hair.png", name: "Haircut", sub: "Classic, fade, taper, scissor", tone: "steel", glyph: <Icon.Scissors size={42} /> },
-      { src: "images/hair-styling.png", name: "Hair Styling", sub: "Wash, blow-dry & finish", tone: "cool", glyph: <Icon.Sparkle size={42} /> },
-      { src: "images/hair-straightening.png", name: "Hair Straightening", sub: "Smoothening & keratin", tone: "default", glyph: <Icon.Bolt size={42} /> },
-      { src: "images/hair-treatment.png", name: "Hair Treatment", sub: "Scalp & dandruff therapy", tone: "warm", glyph: <Icon.Drop size={42} /> },
+      { src: "images/hair.webp", name: "Haircut", sub: "Classic, fade, taper, scissor", tone: "steel", glyph: <Icon.Scissors size={42} /> },
+      { src: "images/hair-styling.webp", name: "Hair Styling", sub: "Wash, blow-dry & finish", tone: "cool", glyph: <Icon.Sparkle size={42} /> },
+      { src: "images/hair-straightening.webp", name: "Hair Straightening", sub: "Smoothening & keratin", tone: "default", glyph: <Icon.Bolt size={42} /> },
+      { src: "images/hair-treatment.webp", name: "Hair Treatment", sub: "Scalp & dandruff therapy", tone: "warm", glyph: <Icon.Drop size={42} /> },
     ],
   },
   beard: {
     label: "Beard",
     blurb: "Sculpted edges, smooth finishes, and shapes tailored to your face — every time.",
     items: [
-      { src: "images/beard.png", name: "Beard Trim", sub: "Maintain your shape", tone: "amber", glyph: <Icon.Razor size={42} /> },
-      { src: "images/beard-shaping.png", name: "Beard Shaping", sub: "Sculpt & line-up", tone: "warm", glyph: <Icon.Scissors size={42} /> },
-      { src: "images/clean-shave.png", name: "Clean Shave", sub: "Smooth finish", tone: "steel", glyph: <Icon.Razor size={42} /> },
+      { src: "images/beard.webp", name: "Beard Trim", sub: "Maintain your shape", tone: "amber", glyph: <Icon.Razor size={42} /> },
+      { src: "images/beard-shaping.webp", name: "Beard Shaping", sub: "Sculpt & line-up", tone: "warm", glyph: <Icon.Scissors size={42} /> },
+      { src: "images/clean-shave.webp", name: "Clean Shave", sub: "Smooth finish", tone: "steel", glyph: <Icon.Razor size={42} /> },
     ],
   },
   skin: {
     label: "Skin",
     blurb: "Quick, no-fuss skincare for men — designed to look natural, never overdone.",
     items: [
-      { src: "images/skin.png", name: "Clean Up", sub: "Refresh & deep cleanse", tone: "cool", glyph: <Icon.Drop size={42} /> },
-      { src: "images/skin.png", name: "Skin Brightening", sub: "Even tone, healthy glow", tone: "default", glyph: <Icon.Sparkle size={42} /> },
-      { src: "images/skin.png", name: "Facial", sub: "Massage, mask, finish", tone: "warm", glyph: <Icon.Heart size={42} /> },
+      { src: "images/skin.webp", name: "Clean Up", sub: "Refresh & deep cleanse", tone: "cool", glyph: <Icon.Drop size={42} /> },
+      { src: "images/skin.webp", name: "Skin Brightening", sub: "Even tone, healthy glow", tone: "default", glyph: <Icon.Sparkle size={42} /> },
+      { src: "images/skin.webp", name: "Facial", sub: "Massage, mask, finish", tone: "warm", glyph: <Icon.Heart size={42} /> },
     ],
   },
   packages: {
     label: "Packages",
     blurb: "Full-service grooming sessions for the days that matter most.",
     items: [
-      { src: "images/package.png", name: "Groom Package", sub: "Hair · Beard · Clean Up", tone: "amber", glyph: <Icon.Crown size={42} /> },
-      { src: "images/package.png", name: "Wedding Groom Package", sub: "Full-day premium experience", tone: "warm", glyph: <Icon.Crown size={42} /> },
+      { src: "images/package.webp", name: "Groom Package", sub: "Hair · Beard · Clean Up", tone: "amber", glyph: <Icon.Crown size={42} /> },
+      { src: "images/package.webp", name: "Wedding Groom Package", sub: "Full-day premium experience", tone: "warm", glyph: <Icon.Crown size={42} /> },
     ],
   },
 };
@@ -612,16 +615,16 @@ function ServiceShowcase({ onBookService }) {
 
 /* ============== Moving Gallery ============== */
 const GALLERY = [
-  { src: "images/gallery1.png", tone: "warm", small: "FADE / 02", caption: "Mid-fade, scissor finish" },
-  { src: "images/gallery2.png", tone: "steel", small: "BEARD / 01", caption: "Beard line-up" },
-  { src: "images/gallery3.png", tone: "amber", small: "INTERIOR", caption: "Studio chair · 03" },
-  { src: "images/skin.png", tone: "cool",  small: "FACIAL / 04", caption: "Clean up + glow" },
-  { src: "images/hair-styling.png", tone: "default", small: "WASH", caption: "Wash & blow-dry" },
-  { src: "images/package.png", tone: "warm", small: "BEFORE / AFTER", caption: "Wedding groom" },
-  { src: "images/hair-styling.png", tone: "steel", small: "DETAIL", caption: "Smooth finish" },
-  { src: "images/hair-straightening.png", tone: "amber", small: "STYLE", caption: "Side-part finish" },
-  { src: "images/Salon Exterior.png", tone: "cool",  small: "INTERIOR / 02", caption: "Mirror wall" },
-  { src: "images/clean-shave.png", tone: "default", small: "PROCESS", caption: "Clipper detail" },
+  { src: "images/gallery1.webp", tone: "warm", small: "FADE / 02", caption: "Mid-fade, scissor finish" },
+  { src: "images/gallery2.webp", tone: "steel", small: "BEARD / 01", caption: "Beard line-up" },
+  { src: "images/gallery3.webp", tone: "amber", small: "INTERIOR", caption: "Studio chair · 03" },
+  { src: "images/skin.webp", tone: "cool",  small: "FACIAL / 04", caption: "Clean up + glow" },
+  { src: "images/hair-styling.webp", tone: "default", small: "WASH", caption: "Wash & blow-dry" },
+  { src: "images/package.webp", tone: "warm", small: "BEFORE / AFTER", caption: "Wedding groom" },
+  { src: "images/hair-styling.webp", tone: "steel", small: "DETAIL", caption: "Smooth finish" },
+  { src: "images/hair-straightening.webp", tone: "amber", small: "STYLE", caption: "Side-part finish" },
+  { src: "images/Salon Exterior.webp", tone: "cool",  small: "INTERIOR / 02", caption: "Mirror wall" },
+  { src: "images/clean-shave.webp", tone: "default", small: "PROCESS", caption: "Clipper detail" },
 ];
 
 function Gallery({ t }) {
@@ -1055,7 +1058,7 @@ function FinalCTA({ t }) {
   return (
     <section className="final-cta">
       <div className="bg">
-        <Photo src="images/gallery1.png" tone="warm" style={{position:"absolute", inset:0}}/>
+        <Photo src="images/gallery1.webp" tone="warm" style={{position:"absolute", inset:0}}/>
       </div>
       <Reveal>
         <div className="container inner">
@@ -1082,7 +1085,7 @@ function Footer({ t }) {
         <div className="grid">
           <div>
             <div className="logo-mark" style={{marginBottom: 18}}>
-              <img src="logo.png" alt="SMART Men's Salon" className="logo-img" />
+              <img src="logo.webp" alt="SMART Men's Salon" className="logo-img" />
             </div>
             <p style={{maxWidth: 380, color:"rgba(255,255,255,.55)", fontSize: 14, margin: 0}}>
               A modern grooming studio for men. Cuts, beards, skin and packages — booked on WhatsApp, done in the chair.
@@ -1249,6 +1252,6 @@ function App() {
   );
 }
 
-ReactDOM.createRoot(document.getElementById("root")).render(<App />);
+createRoot(document.getElementById("root")).render(<App />);
 
 
