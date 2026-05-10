@@ -340,25 +340,55 @@ function Photo({ tone = "default", label, glyph = null, style, src, eager }) {
 
 /* ============== Top Nav ============== */
 function TopNav() {
+  const [menuOpen, setMenuOpen] = React.useState(false);
+
   const scrollToTop = (e) => {
     e.preventDefault();
+    setMenuOpen(false);
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
+
+  React.useEffect(() => {
+    if (!menuOpen) return;
+    const onKey = (e) => { if (e.key === 'Escape') setMenuOpen(false); };
+    window.addEventListener('keydown', onKey);
+    return () => window.removeEventListener('keydown', onKey);
+  }, [menuOpen]);
+
+  const links = ['services', 'gallery', 'book', 'visit'];
+  const close = () => setMenuOpen(false);
+
   return (
-    <nav className="topnav">
+    <nav className={"topnav " + (menuOpen ? "is-menu-open" : "")}>
       <div className="container row">
         <a href="#" onClick={scrollToTop} className="logo-mark" style={{textDecoration:'none'}}>
           <img src="logo.png" alt="SMART Men's Salon" className="logo-img" style={{ height: '60px' }} />
         </a>
         <div className="links">
-          <a href="#services">Services</a>
-          <a href="#gallery">Gallery</a>
-          <a href="#book">Book</a>
-          <a href="#visit">Visit</a>
+          {links.map(l => (
+            <a key={l} href={`#${l}`}>{l[0].toUpperCase() + l.slice(1)}</a>
+          ))}
         </div>
-        <a href="#book" className="btn btn-dark btn-sm" style={{height: 40, color: '#fff'}}>
-          <Icon.WhatsApp size={14} /> Book Now
-        </a>
+        <div className="nav-actions">
+          <a href="#book" className="btn btn-dark btn-sm" style={{height: 40, color: '#fff'}} onClick={close}>
+            <Icon.WhatsApp size={14} /> Book Now
+          </a>
+          <button
+            type="button"
+            className="menu-toggle"
+            aria-label={menuOpen ? "Close menu" : "Open menu"}
+            aria-expanded={menuOpen}
+            aria-controls="mobile-menu"
+            onClick={() => setMenuOpen(o => !o)}
+          >
+            <span aria-hidden="true">{menuOpen ? '✕' : '☰'}</span>
+          </button>
+        </div>
+      </div>
+      <div id="mobile-menu" className="mobile-menu" hidden={!menuOpen}>
+        {links.map(l => (
+          <a key={l} href={`#${l}`} onClick={close}>{l[0].toUpperCase() + l.slice(1)}</a>
+        ))}
       </div>
     </nav>
   );
