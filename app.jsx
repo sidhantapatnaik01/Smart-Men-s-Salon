@@ -348,7 +348,7 @@ function TopNav() {
     <nav className="topnav">
       <div className="container row">
         <a href="#" onClick={scrollToTop} className="logo-mark" style={{textDecoration:'none'}}>
-          <img src="logo.png" alt="SMART Men's Salon" className="logo-img" />
+          <img src="logo.png" alt="SMART Men's Salon" className="logo-img" style={{ height: '60px' }} />
         </a>
         <div className="links">
           <a href="#services">Services</a>
@@ -356,7 +356,7 @@ function TopNav() {
           <a href="#book">Book</a>
           <a href="#visit">Visit</a>
         </div>
-        <a href="#book" className="btn btn-ghost-dark btn-sm" style={{height: 40}}>
+        <a href="#book" className="btn btn-dark btn-sm" style={{height: 40}}>
           <Icon.WhatsApp size={14} /> Book Now
         </a>
       </div>
