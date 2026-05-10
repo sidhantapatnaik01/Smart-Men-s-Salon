@@ -437,8 +437,19 @@ function Hero({ t }) {
             OPEN TODAY · {t.hours}
           </span>
         </div>
-        <div style={{ width: '360px', height: '144px', overflow: 'hidden', marginBottom: 16, position: 'relative' }}>
-          <img src="images/logo-large.webp" alt="Smart Men's Salon" style={{ width: '360px', position: 'absolute', top: '-192px' }} />
+        <div style={{ position: 'relative', width: '360px', height: '144px', marginBottom: 16 }}>
+          <div style={{
+            position: 'absolute',
+            inset: '-15px',
+            background: 'linear-gradient(90deg, #00cfff, #a600ff, #ff006e, #ff8800)',
+            filter: 'blur(25px) brightness(0.8)',
+            opacity: 0.6,
+            borderRadius: '20px',
+            zIndex: 0
+          }} />
+          <div style={{ width: '360px', height: '144px', overflow: 'hidden', position: 'relative', zIndex: 1 }}>
+            <img src="images/logo-large.webp" alt="Smart Men's Salon" style={{ width: '360px', position: 'absolute', top: '-192px' }} />
+          </div>
         </div>
         <h1 className="display" style={{ marginBottom: 24 }}>
           <span className="h-line">{t.headlineLine1}</span>
