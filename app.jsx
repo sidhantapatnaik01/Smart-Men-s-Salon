@@ -399,7 +399,7 @@ function Hero({ t }) {
       <TopNav />
       <div className="container content">
         <div className="hero-logo" style={{ marginBottom: 24 }}>
-          <img src="logo.png" alt="Smart Men's Salon Logo" style={{ maxHeight: '200px', width: 'auto' }} />
+          <img src="logo_cropped.png" alt="Smart Men's Salon Logo" style={{ maxHeight: '200px', width: 'auto' }} />
         </div>
         <div className="eyebrow" style={{color:"rgba(255,255,255,.55)", marginBottom: 18}}>
           <span style={{display:"inline-flex", alignItems:"center", gap: 8}}>
