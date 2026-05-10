@@ -404,9 +404,8 @@ function Hero({ t }) {
             OPEN TODAY · {t.hours}
           </span>
         </div>
-        <div className="brand-header" style={{ marginBottom: 16 }}>
-          <h2 style={{ fontSize: '24px', fontWeight: 700, textTransform: 'uppercase', color: '#2563EB', marginBottom: 4 }}>SMART MEN'S SALON</h2>
-          <p style={{ fontSize: '10px', letterSpacing: '4px', textTransform: 'uppercase', color: 'rgba(255,255,255,.5)' }}>MODERN · CLEAN · STRONG</p>
+        <div style={{ width: '300px', height: '120px', overflow: 'hidden', marginBottom: 16, position: 'relative' }}>
+          <img src="images/RAW/logo png.png" alt="Smart Men's Salon" style={{ width: '300px', position: 'absolute', top: '-130px' }} />
         </div>
         <h1 className="display" style={{ marginBottom: 24 }}>
           <span className="h-line">{t.headlineLine1}</span>
