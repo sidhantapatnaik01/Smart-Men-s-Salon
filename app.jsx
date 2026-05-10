@@ -405,7 +405,7 @@ function Hero({ t }) {
           </span>
         </div>
         <div style={{ width: '300px', height: '120px', overflow: 'hidden', marginBottom: 16, position: 'relative' }}>
-          <img src="images/RAW/logo png.png" alt="Smart Men's Salon" style={{ width: '300px', position: 'absolute', top: '-130px' }} />
+          <img src="images/RAW/logo png.png" alt="Smart Men's Salon" style={{ width: '300px', position: 'absolute', top: '-160px' }} />
         </div>
         <h1 className="display" style={{ marginBottom: 24 }}>
           <span className="h-line">{t.headlineLine1}</span>
