@@ -262,8 +262,8 @@ const SERVICES = {
     blurb: "Quick, no-fuss skincare for men — designed to look natural, never overdone.",
     items: [
       { src: "images/skin.png", name: "Clean Up", sub: "Refresh & deep cleanse", tone: "cool", glyph: <Icon.Drop size={42} /> },
-      { src: "images/gallery4.png", name: "Skin Brightening", sub: "Even tone, healthy glow", tone: "default", glyph: <Icon.Sparkle size={42} /> },
-      { src: "images/gallery4.png", name: "Facial", sub: "Massage, mask, finish", tone: "warm", glyph: <Icon.Heart size={42} /> },
+      { src: "images/skin.png", name: "Skin Brightening", sub: "Even tone, healthy glow", tone: "default", glyph: <Icon.Sparkle size={42} /> },
+      { src: "images/skin.png", name: "Facial", sub: "Massage, mask, finish", tone: "warm", glyph: <Icon.Heart size={42} /> },
     ],
   },
   packages: {
@@ -378,8 +378,8 @@ const GALLERY = [
   { src: "images/gallery1.png", tone: "warm", small: "FADE / 02", caption: "Mid-fade, scissor finish" },
   { src: "images/gallery2.png", tone: "steel", small: "BEARD / 01", caption: "Beard line-up" },
   { src: "images/gallery3.png", tone: "amber", small: "INTERIOR", caption: "Studio chair · 03" },
-  { src: "images/gallery4.png", tone: "cool",  small: "FACIAL / 04", caption: "Clean up + glow" },
-  { src: "images/gallery5.png", tone: "default", small: "WASH", caption: "Wash & blow-dry" },
+  { src: "images/skin.png", tone: "cool",  small: "FACIAL / 04", caption: "Clean up + glow" },
+  { src: "images/hair-styling.png", tone: "default", small: "WASH", caption: "Wash & blow-dry" },
   { src: "images/package.png", tone: "warm", small: "BEFORE / AFTER", caption: "Wedding groom" },
   { src: "images/hair-styling.png", tone: "steel", small: "DETAIL", caption: "Smooth finish" },
   { src: "images/hair-straightening.png", tone: "amber", small: "STYLE", caption: "Side-part finish" },
