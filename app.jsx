@@ -404,11 +404,11 @@ function Hero({ t }) {
             OPEN TODAY · {t.hours}
           </span>
         </div>
-        <h1 className="display">
-          <span className="h-line">{t.headlineLine1}</span>
-          <span className="h-line">FEEL <RotatingWord /></span>
-        </h1>
-        <p className="sub">{t.heroSub}</p>
+        <div className="brand-header" style={{ marginBottom: 32 }}>
+          <h1 style={{ fontSize: '80px', fontWeight: 900, textTransform: 'uppercase', color: '#fff', lineHeight: '0.9', marginBottom: 8 }}>SMART</h1>
+          <h2 style={{ fontSize: '32px', fontWeight: 700, textTransform: 'uppercase', color: '#2563EB', lineHeight: '1', marginBottom: 16 }}>MEN'S SALON</h2>
+          <p style={{ fontSize: '12px', letterSpacing: '6px', textTransform: 'uppercase', color: 'rgba(255,255,255,.5)' }}>MODERN · CLEAN · STRONG</p>
+        </div>
         <div className="ctas">
           <a href="#book" className="btn btn-wa">
             <Icon.WhatsApp size={16} /> Book on WhatsApp
