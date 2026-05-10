@@ -391,7 +391,7 @@ function Hero({ t }) {
               inset:0, 
               opacity: currentBg === index ? 1 : 0,
               transition: 'opacity 1s ease-in-out',
-              objectPosition: src === "images/Salon Exterior.png" ? "bottom" : "center"
+              objectPosition: src === "images/Salon Exterior.png" ? "bottom" : (src === "images/hero.png" ? "right center" : "center")
             }}
           />
         ))}
