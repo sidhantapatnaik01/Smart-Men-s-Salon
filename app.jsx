@@ -1,6 +1,7 @@
 
 import React from 'react';
 import { createRoot } from 'react-dom/client';
+import * as THREE from 'three';
 
 // ── useTweaks ───────────────────────────────────────────────────────────────
 function useTweaks(defaults) {
@@ -397,6 +398,143 @@ function TopNav() {
   );
 }
 
+
+/* ============== Celestial Bloom Shader ============== */
+const CelestialBloomShader = () => {
+  const containerRef = React.useRef(null);
+
+  React.useEffect(() => {
+    const container = containerRef.current;
+    if (!container) return;
+
+    let renderer;
+    try {
+      renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+      renderer.setPixelRatio(window.devicePixelRatio);
+      container.appendChild(renderer.domElement);
+    } catch (err) {
+      console.error('WebGL not supported', err);
+      container.innerHTML = '<p style="color:white;text-align:center;">Sorry, WebGL isn’t available.</p>';
+      return;
+    }
+
+    const scene = new THREE.Scene();
+    const camera = new THREE.OrthographicCamera(-1, 1, 1, -1, 0, 1);
+    const clock = new THREE.Clock();
+
+    const vertexShader = `
+      void main() {
+        gl_Position = vec4(position, 1.0);
+      }
+    `;
+
+    const fragmentShader = `
+      precision highp float;
+      uniform vec2 iResolution;
+      uniform float iTime;
+
+      float noise(vec2 st) {
+        return fract(sin(dot(st.xy, vec2(12.9898, 78.233))) * 43758.5453123);
+      }
+
+      float fbm(vec2 st) {
+        float value = 0.0;
+        float amplitude = 0.5;
+        for (int i = 0; i < 6; i++) {
+          value += amplitude * noise(st);
+          st *= 2.0;
+          amplitude *= 0.5;
+        }
+        return value;
+      }
+
+      void main() {
+        vec2 uv = (gl_FragCoord.xy * 2.0 - iResolution.xy) / min(iResolution.x, iResolution.y);
+        float t = iTime * 1.5;
+        float radius = length(uv);
+        float angle  = atan(uv.y, uv.x);
+
+        float petals     = 5.0;
+        float bloomShape = sin(angle * petals + t);
+        float distorted  = radius + bloomShape * 0.1 * fbm(uv * 3.0 + t * 0.1);
+
+        vec3 deepSpace = vec3(0.0, 0.0, 0.0);
+        vec3 nebula    = vec3(0.15, 0.8, 0.4); // Emerald/Green glow
+        vec3 star      = vec3(1.0, 1.0, 1.0);
+
+        float mixVal  = smoothstep(0.1, 0.6, distorted);
+        vec3  color   = mix(nebula, deepSpace, mixVal);
+
+        float coreGlow = smoothstep(0.1, 0.0, radius);
+        color = mix(color, star, coreGlow);
+
+        float twinkle = smoothstep(0.98, 0.99, fbm(uv * 10.0));
+        color = mix(color, star, twinkle * (1.0 - coreGlow));
+
+        gl_FragColor = vec4(color, 1.0 - smoothstep(0.4, 0.8, length(uv)));
+      }
+    `;
+
+    const uniforms = {
+      iTime:       { value: 0 },
+      iResolution: { value: new THREE.Vector2() }
+    };
+    const material = new THREE.ShaderMaterial({ 
+      vertexShader, 
+      fragmentShader, 
+      uniforms,
+      transparent: true 
+    });
+    const geometry = new THREE.PlaneGeometry(2, 2);
+    const mesh     = new THREE.Mesh(geometry, material);
+    scene.add(mesh);
+
+    const onResize = () => {
+      const w = container.clientWidth;
+      const h = container.clientHeight;
+      renderer.setSize(w, h);
+      uniforms.iResolution.value.set(w, h);
+    };
+    window.addEventListener('resize', onResize);
+    onResize();
+
+    renderer.setAnimationLoop(() => {
+      uniforms.iTime.value = clock.getElapsedTime();
+      renderer.render(scene, camera);
+    });
+
+    return () => {
+      window.removeEventListener('resize', onResize);
+      renderer.setAnimationLoop(null);
+      const canvas = renderer.domElement;
+      if (canvas && canvas.parentNode) {
+        canvas.parentNode.removeChild(canvas);
+      }
+      material.dispose();
+      geometry.dispose();
+      renderer.dispose();
+    };
+  }, []);
+
+  return (
+    <div
+      ref={containerRef}
+      style={{
+        position: 'absolute',
+        top: '50%',
+        left: '50%',
+        transform: 'translate(-50%, -50%)',
+        width: '500px',
+        height: '500px',
+        zIndex: -1,
+        pointerEvents: 'none',
+        opacity: 0.8
+      }}
+      aria-label="Celestial Bloom animated background"
+    />
+  );
+};
+
 /* ============== Hero ============== */
 function Hero({ t }) {
   const [currentBg, setCurrentBg] = React.useState(0);
@@ -437,8 +575,11 @@ function Hero({ t }) {
             OPEN TODAY · {t.hours}
           </span>
         </div>
-        <div style={{ width: '360px', height: '144px', overflow: 'hidden', marginBottom: 16, position: 'relative' }}>
-          <img src="images/logo-large.webp" alt="Smart Men's Salon" style={{ width: '360px', position: 'absolute', top: '-192px' }} />
+        <div style={{ position: 'relative', width: '360px', height: '144px', marginBottom: 16 }}>
+          <CelestialBloomShader />
+          <div style={{ width: '360px', height: '144px', overflow: 'hidden', position: 'relative' }}>
+            <img src="images/logo-large.webp" alt="Smart Men's Salon" style={{ width: '360px', position: 'absolute', top: '-192px' }} />
+          </div>
         </div>
         <h1 className="display" style={{ marginBottom: 24 }}>
           <span className="h-line">{t.headlineLine1}</span>
