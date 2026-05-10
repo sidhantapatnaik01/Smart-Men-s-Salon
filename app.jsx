@@ -424,7 +424,7 @@ function Hero({ t }) {
               inset:0, 
               opacity: currentBg === index ? 1 : 0,
               transition: 'opacity 1s ease-in-out',
-              objectPosition: src === "images/Salon Exterior.webp" ? "center top" : (src === "images/hero.webp" ? "right center" : "center")
+              objectPosition: src === "images/Salon Exterior.webp" ? "center 80%" : (src === "images/hero.webp" ? "right center" : "center")
             }}
           />
         ))}
