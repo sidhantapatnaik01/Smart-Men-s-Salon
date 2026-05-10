@@ -1113,7 +1113,7 @@ function StickyMobile({ t }) {
         <Icon.WhatsApp size={26}/>
       </a>
       <div className="mobile-cta">
-        <a href={`tel:${t.phone.replace(/\s/g,'')}`} className="btn btn-light" style={{background:"rgba(255,255,255,.08)", color:"#fff", border:"1px solid rgba(255,255,255,.16)"}}>
+        <a href={`tel:${t.phone.replace(/\s/g,'')}`} className="btn btn-dark" style={{background:"rgba(10,10,11,.85)", color:"#fff", border:"none"}}>
           <Icon.Phone size={15}/> Call
         </a>
         <a href="#book" className="btn btn-wa">
