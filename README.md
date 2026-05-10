@@ -1,25 +1,24 @@
-# CODING AGENTS: READ THIS FIRST
+# SMART Men's Salon
 
-This is a **handoff bundle** from Claude Design (claude.ai/design).
+Premium men's grooming studio website in Nabarangpur, Odisha.
 
-A user mocked up designs in HTML/CSS/JS using an AI design tool, then exported this bundle so a coding agent can implement the designs for real.
+## Overview
 
-## What you should do — IMPORTANT
+This is the static site for SMART Men's Salon. It is a single-page React application that is bundled into a monolithic `index.html` file using in-browser Babel for simple, serverless deployment.
 
-**Read the chat transcripts first.** There are 1 chat transcript(s) in `chats/`. The transcripts show the full back-and-forth between the user and the design assistant — they tell you **what the user actually wants** and **where they landed** after iterating. Don't skip them. The final HTML files are the output, but the chat is where the intent lives.
+## Local Development
 
-**Read `project/SMART Men's Salon.html` in full.** The user had this file open when they triggered the handoff, so it's almost certainly the primary design they want built. Read it top to bottom — don't skim. Then **follow its imports**: open every file it pulls in (shared components, CSS, scripts) so you understand how the pieces fit together before you start implementing.
+You do not need a build process or a server to view the site. You can simply:
+1. Open `index.html` in your web browser.
+2. Make changes to the `index.html` or `project/app.jsx` file.
 
-**If anything is ambiguous, ask the user to confirm before you start implementing.** It's much cheaper to clarify scope up front than to build the wrong thing.
+*Note: The actual production application is fully contained in `index.html`.*
 
-## About the design files
+## Deployment
 
-The design medium is **HTML/CSS/JS** — these are prototypes, not production code. Your job is to **recreate them pixel-perfectly** in whatever technology makes sense for the target codebase (React, Vue, native, whatever fits). Match the visual output; don't copy the prototype's internal structure unless it happens to fit.
+The site is hosted on Cloudflare Pages and deploys automatically when changes are pushed to the `main` branch.
 
-**Don't render these files in a browser or take screenshots unless the user asks you to.** Everything you need — dimensions, colors, layout rules — is spelled out in the source. Read the HTML and CSS directly; a screenshot won't tell you anything they don't.
-
-## Bundle contents
-
-- `README.md` — this file
-- `chats/` — conversation transcripts (read these!)
-- `project/` — the `Smart Men's Salon` project files (HTML prototypes, assets, components)
+## Technologies Used
+- React 18 (via CDN)
+- Babel Standalone (for in-browser JSX transpilation)
+- Vanilla CSS

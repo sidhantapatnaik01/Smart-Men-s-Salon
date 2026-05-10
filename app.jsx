@@ -1,7 +1,198 @@
+
+// ── useTweaks ───────────────────────────────────────────────────────────────
+function useTweaks(defaults) {
+  const [values, setValues] = React.useState(defaults);
+  const setTweak = React.useCallback((keyOrEdits, val) => {
+    const edits = typeof keyOrEdits === 'object' && keyOrEdits !== null
+      ? keyOrEdits : { [keyOrEdits]: val };
+    setValues((prev) => ({ ...prev, ...edits }));
+    window.dispatchEvent(new CustomEvent('tweakchange', { detail: edits }));
+  }, []);
+  return [values, setTweak];
+}
+
+// ── TweaksPanel ─────────────────────────────────────────────────────────────
+function TweaksPanel({ title = 'Tweaks', children }) {
+  const [open, setOpen] = React.useState(false);
+  const dragRef = React.useRef(null);
+  const offsetRef = React.useRef({ x: 16, y: 16 });
+  const PAD = 16;
+
+  const clampToViewport = React.useCallback(() => {
+    const panel = dragRef.current;
+    if (!panel) return;
+    const w = panel.offsetWidth, h = panel.offsetHeight;
+    const maxRight = Math.max(PAD, window.innerWidth - w - PAD);
+    const maxBottom = Math.max(PAD, window.innerHeight - h - PAD);
+    offsetRef.current = {
+      x: Math.min(maxRight, Math.max(PAD, offsetRef.current.x)),
+      y: Math.min(maxBottom, Math.max(PAD, offsetRef.current.y)),
+    };
+    panel.style.right = offsetRef.current.x + 'px';
+    panel.style.bottom = offsetRef.current.y + 'px';
+  }, []);
+
+  React.useEffect(() => {
+    if (!open) return;
+    clampToViewport();
+    const ro = typeof ResizeObserver !== 'undefined' ? new ResizeObserver(clampToViewport) : null;
+    if (ro) { ro.observe(document.documentElement); return () => ro.disconnect(); }
+    window.addEventListener('resize', clampToViewport);
+    return () => window.removeEventListener('resize', clampToViewport);
+  }, [open, clampToViewport]);
+
+  React.useEffect(() => {
+    const onMsg = (e) => {
+      const t = e?.data?.type;
+      if (t === '__activate_edit_mode') setOpen(true);
+      else if (t === '__deactivate_edit_mode') setOpen(false);
+    };
+    window.addEventListener('message', onMsg);
+    return () => window.removeEventListener('message', onMsg);
+  }, []);
+
+  const dismiss = () => {
+    setOpen(false);
+  };
+
+  const onDragStart = (e) => {
+    const panel = dragRef.current;
+    if (!panel) return;
+    const r = panel.getBoundingClientRect();
+    const sx = e.clientX, sy = e.clientY;
+    const startRight = window.innerWidth - r.right;
+    const startBottom = window.innerHeight - r.bottom;
+    const move = (ev) => {
+      offsetRef.current = {
+        x: startRight - (ev.clientX - sx),
+        y: startBottom - (ev.clientY - sy),
+      };
+      clampToViewport();
+    };
+    const up = () => {
+      window.removeEventListener('mousemove', move);
+      window.removeEventListener('mouseup', up);
+    };
+    window.addEventListener('mousemove', move);
+    window.addEventListener('mouseup', up);
+  };
+
+  if (!open) return null;
+  return (
+    <div ref={dragRef} className="twk-panel" style={{ right: offsetRef.current.x, bottom: offsetRef.current.y }}>
+      <div className="twk-hd" onMouseDown={onDragStart}>
+        <b>{title}</b>
+        <button className="twk-x" aria-label="Close tweaks" onMouseDown={(e) => e.stopPropagation()} onClick={dismiss}>✕</button>
+      </div>
+      <div className="twk-body">{children}</div>
+    </div>
+  );
+}
+
+function TweakSection({ label, children }) {
+  return (
+    <>
+      <div className="twk-sect">{label}</div>
+      {children}
+    </>
+  );
+}
+
+function TweakRow({ label, value, children, inline = false }) {
+  return (
+    <div className={inline ? 'twk-row twk-row-h' : 'twk-row'}>
+      <div className="twk-lbl">
+        <span>{label}</span>
+        {value != null && <span className="twk-val">{value}</span>}
+      </div>
+      {children}
+    </div>
+  );
+}
+
+function TweakToggle({ label, value, onChange }) {
+  return (
+    <div className="twk-row twk-row-h">
+      <div className="twk-lbl"><span>{label}</span></div>
+      <button type="button" className="twk-toggle" data-on={value ? '1' : '0'}
+              role="switch" aria-checked={!!value}
+              onClick={() => onChange(!value)}><i /></button>
+    </div>
+  );
+}
+
+function TweakText({ label, value, placeholder, onChange }) {
+  return (
+    <TweakRow label={label}>
+      <input className="twk-field" type="text" value={value} placeholder={placeholder}
+             onChange={(e) => onChange(e.target.value)} />
+    </TweakRow>
+  );
+}
+
+function __twkIsLight(hex) {
+  const h = String(hex).replace('#', '');
+  const x = h.length === 3 ? h.replace(/./g, (c) => c + c) : h.padEnd(6, '0');
+  const n = parseInt(x.slice(0, 6), 16);
+  if (Number.isNaN(n)) return true;
+  const r = (n >> 16) & 255, g = (n >> 8) & 255, b = n & 255;
+  return r * 299 + g * 587 + b * 114 > 148000;
+}
+
+const __TwkCheck = ({ light }) => (
+  <svg viewBox="0 0 14 14" aria-hidden="true">
+    <path d="M3 7.2 5.8 10 11 4.2" fill="none" strokeWidth="2.2"
+          strokeLinecap="round" strokeLinejoin="round"
+          stroke={light ? 'rgba(0,0,0,.78)' : '#fff'} />
+  </svg>
+);
+
+function TweakColor({ label, value, options, onChange }) {
+  if (!options || !options.length) {
+    return (
+      <div className="twk-row twk-row-h">
+        <div className="twk-lbl"><span>{label}</span></div>
+        <input type="color" className="twk-swatch" value={value}
+               onChange={(e) => onChange(e.target.value)} />
+      </div>
+    );
+  }
+  const key = (o) => String(JSON.stringify(o)).toLowerCase();
+  const cur = key(value);
+  return (
+    <TweakRow label={label}>
+      <div className="twk-chips" role="radiogroup">
+        {options.map((o, i) => {
+          const colors = Array.isArray(o) ? o : [o];
+          const [hero, ...rest] = colors;
+          const sup = rest.slice(0, 4);
+          const on = key(o) === cur;
+          return (
+            <button key={i} type="button" className="twk-chip" role="radio"
+                    aria-checked={on} data-on={on ? '1' : '0'}
+                    aria-label={colors.join(', ')} title={colors.join(' · ')}
+                    style={{ background: hero }}
+                    onClick={() => onChange(o)}>
+              {sup.length > 0 && (
+                <span>
+                  {sup.map((c, j) => <i key={j} style={{ background: c }} />)}
+                </span>
+              )}
+              {on && <__TwkCheck light={__twkIsLight(hero)} />}
+            </button>
+          );
+        })}
+      </div>
+    </TweakRow>
+  );
+}
+
+
+
 /* SMART Men's Salon — App */
 const { useState, useEffect, useMemo, useRef, useCallback } = React;
 
-const TWEAK_DEFAULTS = /*EDITMODE-BEGIN*/{
+const TWEAK_DEFAULTS = {
   "primaryColor": "#2563EB",
   "headlineLine1": "LOOK SHARP.",
   "headlineLine2": "FEEL DIFFERENT.",
@@ -13,7 +204,7 @@ const TWEAK_DEFAULTS = /*EDITMODE-BEGIN*/{
   "hours": "07:00 — 21:00 (Thu till 13:00)",
   "showTicker": true,
   "showGallery": true
-}/*EDITMODE-END*/;
+};
 
 /* ============== Rotating Words ============== */
 const HERO_WORDS = ["DIFFERENT.", "CONFIDENT.", "SHARP.", "FRESH.", "READY."];
@@ -38,6 +229,7 @@ function RotatingWord() {
 
   return <em className={cls} key={index + anim}>{word}</em>;
 }
+
 function useInView(opts = {}) {
   const { threshold = 0.15, once = true } = opts;
   const ref = useRef(null);
@@ -133,9 +325,9 @@ const Icon = {
 };
 
 /* ============== Photo Placeholder ============== */
-function Photo({ tone = "default", label, glyph = null, style, src }) {
+function Photo({ tone = "default", label, glyph = null, style, src, eager }) {
   if (src) {
-    return <img src={src} alt={label || ""} className="photo" style={{ objectFit: "cover", width: "100%", height: "100%", ...style }} />;
+    return <img src={src} alt={label || ""} className="photo" style={{ objectFit: "cover", width: "100%", height: "100%", ...style }} loading={eager ? "eager" : "lazy"} decoding="async" />;
   }
   const cls = "photo " + (tone !== "default" ? tone : "");
   return (
@@ -156,8 +348,7 @@ function TopNav() {
     <nav className="topnav">
       <div className="container row">
         <a href="#" onClick={scrollToTop} className="logo-mark" style={{textDecoration:'none'}}>
-          <span className="badge">S</span>
-          <span>SMART <span style={{opacity:.6, fontWeight: 500}}>Men's Salon</span></span>
+          <img src="logo.png" alt="SMART Men's Salon" className="logo-img" />
         </a>
         <div className="links">
           <a href="#services">Services</a>
@@ -176,9 +367,9 @@ function TopNav() {
 /* ============== Hero ============== */
 function Hero({ t }) {
   return (
-    <header className="hero" data-screen-label="Hero">
+    <header className="hero">
       <div className="bg">
-        <Photo src="images/hero.png" tone="warm" label="HERO · GROOMING SHOT · 1.0" style={{position:"absolute", inset:0}}
+        <Photo src="images/hero.png" eager tone="warm" label="HERO · GROOMING SHOT · 1.0" style={{position:"absolute", inset:0}}
           glyph={
             <svg width="40%" viewBox="0 0 100 140" fill="none" stroke="rgba(255,255,255,0.06)" strokeWidth="0.4">
               <ellipse cx="50" cy="44" rx="20" ry="24"/>
@@ -210,11 +401,11 @@ function Hero({ t }) {
           </a>
         </div>
         <div className="meta-row">
-          <span><span className="dot" style={{display:"inline-block", marginRight:8, verticalAlign:"middle"}}></span>4.9 ★ · 1,200+ Google reviews</span>
+          <span><span className="dot" style={{display:"inline-block", marginRight:8, verticalAlign:"middle"}}></span>Premium men's grooming · Nabarangpur</span>
           <span style={{opacity:.4}}>—</span>
           <span>Walk-ins welcome</span>
           <span style={{opacity:.4}}>—</span>
-          <span>HSR Layout · Bengaluru</span>
+          <span>Durga Rao · Nabarangpur</span>
         </div>
       </div>
       {t.showTicker && <div className="ticker">
@@ -298,21 +489,20 @@ function ServiceShowcase({ onBookService }) {
   const [gridRef, gridVisible] = useInView({ threshold: 0.05 });
 
   return (
-    <section className="section showcase" id="services" data-screen-label="Services">
+    <section className="section showcase" id="services">
       <div className="container">
         <Reveal>
-        <div className="sec-head">
-          <div>
-            <div className="eyebrow" style={{marginBottom: 14}}>02 — SERVICES</div>
-            <h2>Pick what you need.<br/><em>See it before you walk in.</em></h2>
+          <div className="sec-head">
+            <div>
+              <div className="eyebrow" style={{marginBottom: 14}}>02 — SERVICES</div>
+              <h2>Pick what you need.<br/><em>See it before you walk in.</em></h2>
+            </div>
+            <div className="right">
+              Tap a category. Imagery, services, and the booking message update instantly.
+            </div>
           </div>
-          <div className="right">
-            Tap a category. Imagery, services, and the booking message update instantly.
-          </div>
-        </div>
         </Reveal>
 
-        {/* Tabs */}
         <div className="cat-bar no-scrollbar">
           <div className="indicator" style={indicatorStyle}></div>
           {cats.map((k, i) => (
@@ -328,7 +518,6 @@ function ServiceShowcase({ onBookService }) {
           ))}
         </div>
 
-        {/* Header for selected category */}
         <div style={{display:"flex", alignItems:"flex-end", justifyContent:"space-between", flexWrap:"wrap", gap:16, margin:"24px 0 24px"}}>
           <p style={{margin:0, color:"var(--ink-soft)", maxWidth: 520, fontSize: 15}}>{data.blurb}</p>
           <div className="eyebrow">
@@ -336,7 +525,6 @@ function ServiceShowcase({ onBookService }) {
           </div>
         </div>
 
-        {/* Tile grid */}
         <div
           ref={gridRef}
           key={cat}
@@ -390,18 +578,18 @@ const GALLERY = [
 function Gallery({ t }) {
   if (t && !t.showGallery) return null;
   return (
-    <section className="section section-tight" id="gallery" data-screen-label="Gallery" style={{background:"#0A0A0B", color:"#fff"}}>
+    <section className="section section-tight" id="gallery" style={{background:"#0A0A0B", color:"#fff"}}>
       <div className="container">
         <Reveal>
-        <div className="sec-head" style={{alignItems:"flex-end"}}>
-          <div>
-            <div className="eyebrow" style={{color:"rgba(255,255,255,.5)", marginBottom: 14}}>03 — GALLERY</div>
-            <h2 style={{color:"#fff"}}>The chair.<br/><em style={{color:"var(--blue)"}}>The work.</em></h2>
+          <div className="sec-head" style={{alignItems:"flex-end"}}>
+            <div>
+              <div className="eyebrow" style={{color:"rgba(255,255,255,.5)", marginBottom: 14}}>03 — GALLERY</div>
+              <h2 style={{color:"#fff"}}>The chair.<br/><em style={{color:"var(--blue)"}}>The work.</em></h2>
+            </div>
+            <div className="right" style={{color:"rgba(255,255,255,.6)"}}>
+              Real cuts, real customers. Scroll, swipe, or just let it move.
+            </div>
           </div>
-          <div className="right" style={{color:"rgba(255,255,255,.6)"}}>
-            Real cuts, real customers. Scroll, swipe, or just let it move.
-          </div>
-        </div>
         </Reveal>
       </div>
       <div style={{overflow:"hidden", maskImage:"linear-gradient(90deg, transparent, #000 6%, #000 94%, transparent)", WebkitMaskImage:"linear-gradient(90deg, transparent, #000 6%, #000 94%, transparent)"}}>
@@ -518,131 +706,124 @@ Additional Notes:
 ${notes || "—"}`;
 
   const waHref = `https://wa.me/${t.whatsappNumber}?text=${encodeURIComponent(message)}`;
-
   const filled = name && phone && services.length;
 
   return (
-    <section className="section" id="book" data-screen-label="Booking" style={{background:"var(--bg-soft)"}}>
+    <section className="section" id="book" style={{background:"var(--bg-soft)"}}>
       <div className="container">
         <Reveal>
-        <div className="sec-head">
-          <div>
-            <div className="eyebrow" style={{marginBottom: 14}}>04 — BOOK</div>
-            <h2>Three steps.<br/><em>Confirm on WhatsApp.</em></h2>
+          <div className="sec-head">
+            <div>
+              <div className="eyebrow" style={{marginBottom: 14}}>04 — BOOK</div>
+              <h2>Three steps.<br/><em>Confirm on WhatsApp.</em></h2>
+            </div>
+            <div className="right">
+              We'll never ask for payment online. Your slot is confirmed by our team within minutes on WhatsApp.
+            </div>
           </div>
-          <div className="right">
-            We'll never ask for payment online. Your slot is confirmed by our team within minutes on WhatsApp.
-          </div>
-        </div>
         </Reveal>
 
         <Reveal delay={0.1} variant="from-scale">
-        <div className="booking-card">
-          <div style={{display: "grid", gridTemplateColumns: "1fr", gap: 28}}>
-            {/* Step 1 — Identity */}
-            <div>
-              <StepLabel n={1} title="Who's coming in?" />
-              <div className="booking-grid two">
-                <div className="field">
-                  <label>Name</label>
-                  <input className="input" type="text" placeholder="Your name" value={name} onChange={e => setName(e.target.value)}/>
-                </div>
-                <div className="field">
-                  <label>Phone</label>
-                  <input className="input" type="tel" placeholder="98XXXXXXXX" value={phone} onChange={e => setPhone(e.target.value)}/>
+          <div className="booking-card">
+            <div style={{display: "grid", gridTemplateColumns: "1fr", gap: 28}}>
+              <div>
+                <StepLabel n={1} title="Who's coming in?" />
+                <div className="booking-grid two">
+                  <div className="field">
+                    <label>Name</label>
+                    <input className="input" type="text" minLength="2" placeholder="Your name" value={name} onChange={e => setName(e.target.value)}/>
+                  </div>
+                  <div className="field">
+                    <label>Phone</label>
+                    <input className="input" type="tel" pattern="[0-9]{10}" placeholder="98XXXXXXXX" value={phone} onChange={e => setPhone(e.target.value)}/>
+                  </div>
                 </div>
               </div>
-            </div>
 
-            {/* Step 2 — Services */}
-            <div>
-              <StepLabel n={2} title="What do you need?" hint={services.length ? `${services.length} selected` : "Tap to select"} />
-              <div style={{display:"flex", flexWrap:"wrap", gap: 8}}>
-                {ALL_SERVICES.map(s => (
-                  <button
-                    key={s}
-                    className={"chip " + (services.includes(s) ? "is-active" : "")}
-                    onClick={() => toggleService(s)}
-                    type="button"
-                  >
-                    <span className="dot"></span>
-                    {s}
-                    {services.includes(s) ? <Icon.Check size={12}/> : <Icon.Plus size={12}/>}
-                  </button>
-                ))}
-              </div>
-            </div>
-
-            {/* Step 3 — Date & Time */}
-            <div>
-              <StepLabel n={3} title="When works for you?" />
-              <div style={{display:"flex", flexDirection:"column", gap: 16}}>
-                <div className="scroll-x no-scrollbar">
-                  {days.map(d => (
+              <div>
+                <StepLabel n={2} title="What do you need?" hint={services.length ? `${services.length} selected` : "Tap to select"} />
+                <div style={{display:"flex", flexWrap:"wrap", gap: 8}}>
+                  {ALL_SERVICES.map(s => (
                     <button
-                      key={d.iso}
+                      key={s}
+                      className={"chip " + (services.includes(s) ? "is-active" : "")}
+                      onClick={() => toggleService(s)}
                       type="button"
-                      className={"day-pill " + (day === d.iso ? "is-active" : "")}
-                      onClick={() => selectDay(d.iso)}
                     >
-                      <span className="dom">{d.dom}</span>
-                      <span className="dow">{d.dow}</span>
-                    </button>
-                  ))}
-                </div>
-                <div className="scroll-x no-scrollbar">
-                  {getSlotsForDay(day).map(t => (
-                    <button
-                      key={t}
-                      type="button"
-                      className={"time-pill " + (time === t ? "is-active" : "")}
-                      onClick={() => setTime(t)}
-                    >
-                      {t}
+                      <span className="dot"></span>
+                      {s}
+                      {services.includes(s) ? <Icon.Check size={12}/> : <Icon.Plus size={12}/>}
                     </button>
                   ))}
                 </div>
               </div>
-            </div>
 
-            {/* Notes */}
-            <div className="field">
-              <label>Notes (optional)</label>
-              <textarea
-                className="textarea"
-                placeholder="e.g. Low fade haircut, keep beard medium length."
-                value={notes}
-                onChange={e => setNotes(e.target.value)}
-              />
-            </div>
+              <div>
+                <StepLabel n={3} title="When works for you?" />
+                <div style={{display:"flex", flexDirection:"column", gap: 16}}>
+                  <div className="scroll-x no-scrollbar">
+                    {days.map(d => (
+                      <button
+                        key={d.iso}
+                        type="button"
+                        className={"day-pill " + (day === d.iso ? "is-active" : "")}
+                        onClick={() => selectDay(d.iso)}
+                      >
+                        <span className="dom">{d.dom}</span>
+                        <span className="dow">{d.dow}</span>
+                      </button>
+                    ))}
+                  </div>
+                  <div className="scroll-x no-scrollbar">
+                    {getSlotsForDay(day).map(ts => (
+                      <button
+                        key={ts}
+                        type="button"
+                        className={"time-pill " + (time === ts ? "is-active" : "")}
+                        onClick={() => setTime(ts)}
+                      >
+                        {ts}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              </div>
 
-            {/* CTA */}
-            <div style={{display:"grid", gridTemplateColumns: "1fr", gap: 20}}>
-              <a
-                href={filled ? waHref : "#"}
-                onClick={(e) => { if (!filled) e.preventDefault(); }}
-                target="_blank"
-                rel="noopener"
-                className="btn btn-wa"
-                style={{
-                  height: 60, fontSize: 16,
-                  opacity: filled ? 1 : 0.55,
-                  cursor: filled ? "pointer" : "not-allowed",
-                  pointerEvents: filled ? "auto" : "auto",
-                }}
-              >
-                <Icon.WhatsApp size={18}/>
-                Continue on WhatsApp
-                <Icon.Arrow size={16}/>
-              </a>
-              <p style={{margin:0, fontSize: 12, color:"var(--muted)", textAlign:"center"}}>
-                {filled
-                  ? "Opens WhatsApp with your booking message ready to send."
-                  : "Fill in name, phone, and at least one service to continue."}
-              </p>
+              <div className="field">
+                <label>Notes (optional)</label>
+                <textarea
+                  className="textarea"
+                  placeholder="e.g. Low fade haircut, keep beard medium length."
+                  value={notes}
+                  onChange={e => setNotes(e.target.value)}
+                />
+              </div>
+
+              <div style={{display:"grid", gridTemplateColumns: "1fr", gap: 20}}>
+                <a
+                  href={filled ? waHref : "#"}
+                  onClick={(e) => { if (!filled) e.preventDefault(); }}
+                  target="_blank"
+                  rel="noopener"
+                  className="btn btn-wa"
+                  style={{
+                    height: 60, fontSize: 16,
+                    opacity: filled ? 1 : 0.55,
+                    cursor: filled ? "pointer" : "not-allowed",
+                  }}
+                >
+                  <Icon.WhatsApp size={18}/>
+                  Continue on WhatsApp
+                  <Icon.Arrow size={16}/>
+                </a>
+                <p style={{margin:0, fontSize: 12, color:"var(--muted)", textAlign:"center"}}>
+                  {filled
+                    ? "Opens WhatsApp with your booking message ready to send."
+                    : "Fill in name, phone, and at least one service to continue."}
+                </p>
+              </div>
             </div>
           </div>
-        </div>
         </Reveal>
       </div>
     </section>
@@ -682,17 +863,16 @@ function Trust() {
     <section className="section">
       <div className="container">
         <Reveal>
-        <div className="sec-head">
-          <div>
-            <div className="eyebrow" style={{marginBottom: 14}}>05 — WHY SMART</div>
-            <h2>The basics, <em>done right.</em></h2>
+          <div className="sec-head">
+            <div>
+              <div className="eyebrow" style={{marginBottom: 14}}>05 — WHY SMART</div>
+              <h2>The basics, <em>done right.</em></h2>
+            </div>
+            <div className="right">
+              We keep things simple — clean chair, clean tools, real grooming. The same standard, every visit.
+            </div>
           </div>
-          <div className="right">
-            We keep things simple — clean chair, clean tools, real grooming. The same standard, every visit.
-          </div>
-        </div>
         </Reveal>
-
         <TrustGrid />
       </div>
     </section>
@@ -728,63 +908,65 @@ function TrustGrid() {
 /* ============== Visit ============== */
 function Visit({ t }) {
   return (
-    <section className="section" id="visit" data-screen-label="Visit" style={{background:"var(--bg-soft)"}}>
+    <section className="section" id="visit" style={{background:"var(--bg-soft)"}}>
       <div className="container">
         <Reveal>
-        <div className="sec-head">
-          <div>
-            <div className="eyebrow" style={{marginBottom: 14}}>06 — VISIT US</div>
-            <h2>Walk in.<br/><em>Or message first.</em></h2>
+          <div className="sec-head">
+            <div>
+              <div className="eyebrow" style={{marginBottom: 14}}>06 — VISIT US</div>
+              <h2>Walk in.<br/><em>Or message first.</em></h2>
+            </div>
           </div>
-        </div>
         </Reveal>
 
         <Reveal delay={0.1}>
-        <div style={{display:"grid", gridTemplateColumns:"1fr", gap: 24}} className="visit-grid">
-          <div className="map">
-            <div className="road h1"></div>
-            <div className="road h2"></div>
-            <div className="road v1"></div>
-            <div className="road v2"></div>
-            <div className="pin"><Icon.Pin size={14}/> SMART Men's Salon</div>
-          </div>
+          <div style={{display:"grid", gridTemplateColumns:"1fr", gap: 24}} className="visit-grid">
+            <div className="map">
+              <iframe
+                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d941.803144638959!2d82.5467622695607!3d19.22956506515561!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3a3ab7601520592f%3A0x2a3ffec6d1d73529!2sSmart%20Saloon!5e0!3m2!1sen!2sin!4v1778342471075!5m2!1sen!2sin"
+                allowFullScreen=""
+                loading="lazy"
+                referrerPolicy="no-referrer-when-downgrade"
+                title="SMART Men's Salon — Google Maps location"
+              />
+            </div>
 
-          <div style={{display:"flex", flexDirection:"column", gap: 16}}>
-            <InfoBlock
-              icon={<Icon.Pin/>}
-              label="Address"
-              value={t.address}
-              caption={t.city}
-            />
-            <InfoBlock
-              icon={<Icon.Clock/>}
-              label="Open Hours"
-              value={t.hours}
-              caption="Last booking 30 mins before close"
-            />
-            <InfoBlock
-              icon={<Icon.Phone/>}
-              label="Phone"
-              value={t.phone}
-              caption="Call or WhatsApp"
-            />
+            <div style={{display:"flex", flexDirection:"column", gap: 16}}>
+              <InfoBlock
+                icon={<Icon.Pin/>}
+                label="Address"
+                value={t.address}
+                caption={t.city}
+              />
+              <InfoBlock
+                icon={<Icon.Clock/>}
+                label="Open Hours"
+                value={t.hours}
+                caption="Last booking 30 mins before close"
+              />
+              <InfoBlock
+                icon={<Icon.Phone/>}
+                label="Phone"
+                value={t.phone}
+                caption="Call or WhatsApp"
+              />
 
-            <div style={{display:"flex", gap: 10, flexWrap: "wrap", marginTop: 6}}>
-              <a href="#book" className="btn btn-wa">
-                <Icon.WhatsApp size={16}/> WhatsApp Us
-              </a>
-              <a href="https://www.google.com/maps/dir/?api=1&destination=19.2296,82.5468" target="_blank" rel="noopener" className="btn btn-light">
-                <Icon.Map size={15}/> Get Directions
-              </a>
-              <a href="https://www.instagram.com/smartmenssalon" target="_blank" rel="noopener" className="btn btn-light">
-                <Icon.Instagram size={15}/> Instagram
-              </a>
-              <a href="https://www.google.com/maps/search/?api=1&query=SMART+Men%27s+Salon+Nabarangpur" target="_blank" rel="noopener" className="btn btn-light">
-                <Icon.Google size={15}/> Reviews
-              </a>
+              <div style={{display:"flex", gap: 10, flexWrap: "wrap", marginTop: 6}}>
+                <a href={`https://wa.me/${t.whatsappNumber}`} target="_blank" rel="noopener" className="btn btn-wa">
+                  <Icon.WhatsApp size={16}/> WhatsApp Us
+                </a>
+                <a href="https://www.google.com/maps/dir/?api=1&destination=Smart+Saloon,+Pathan+Street,+Nabarangpur,+Odisha" target="_blank" rel="noopener" className="btn btn-light">
+                  <Icon.Map size={15}/> Get Directions
+                </a>
+                <a href="https://www.instagram.com/smartmenssalon" target="_blank" rel="noopener" className="btn btn-light">
+                  <Icon.Instagram size={15}/> Instagram
+                </a>
+                <a href="https://www.google.com/maps/search/?api=1&query=SMART+Men%27s+Salon+Nabarangpur" target="_blank" rel="noopener" className="btn btn-light">
+                  <Icon.Google size={15}/> Reviews
+                </a>
+              </div>
             </div>
           </div>
-        </div>
         </Reveal>
       </div>
       <style>{`
@@ -822,22 +1004,22 @@ function InfoBlock({ icon, label, value, caption }) {
 /* ============== Final CTA ============== */
 function FinalCTA({ t }) {
   return (
-    <section className="final-cta" data-screen-label="Final CTA">
+    <section className="final-cta">
       <div className="bg">
-        <Photo tone="warm" style={{position:"absolute", inset:0}}/>
+        <Photo src="images/gallery1.png" tone="warm" style={{position:"absolute", inset:0}}/>
       </div>
       <Reveal>
-      <div className="container inner">
-        <div className="eyebrow" style={{color:"rgba(255,255,255,.55)", marginBottom: 22}}>07 — VISIT US</div>
-        <h2>WALK IN <em>NORMAL.</em><br/>WALK OUT <em>SHARP.</em></h2>
-        <p className="sub">It takes 30 seconds to book. The transformation takes a little longer.</p>
-        <div className="cta">
-          <a href="#book" className="btn btn-wa" style={{height:60, padding:"0 30px", fontSize: 16}}>
-            <Icon.WhatsApp size={18}/> Book on WhatsApp
-            <Icon.Arrow size={16}/>
-          </a>
+        <div className="container inner">
+          <div className="eyebrow" style={{color:"rgba(255,255,255,.55)", marginBottom: 22}}>07 — VISIT US</div>
+          <h2>WALK IN <em>NORMAL.</em><br/>WALK OUT <em>SHARP.</em></h2>
+          <p className="sub">It takes 30 seconds to book. The transformation takes a little longer.</p>
+          <div className="cta">
+            <a href="#book" className="btn btn-wa" style={{height:60, padding:"0 30px", fontSize: 16}}>
+              <Icon.WhatsApp size={18}/> Book on WhatsApp
+              <Icon.Arrow size={16}/>
+            </a>
+          </div>
         </div>
-      </div>
       </Reveal>
     </section>
   );
@@ -851,8 +1033,7 @@ function Footer({ t }) {
         <div className="grid">
           <div>
             <div className="logo-mark" style={{marginBottom: 18}}>
-              <span className="badge">S</span>
-              <span>SMART <span style={{opacity:.6, fontWeight: 500}}>Men's Salon</span></span>
+              <img src="logo.png" alt="SMART Men's Salon" className="logo-img" />
             </div>
             <p style={{maxWidth: 380, color:"rgba(255,255,255,.55)", fontSize: 14, margin: 0}}>
               A modern grooming studio for men. Cuts, beards, skin and packages — booked on WhatsApp, done in the chair.
@@ -878,14 +1059,14 @@ function Footer({ t }) {
           <div>
             <h4>Follow</h4>
             <ul>
-              <li><a href="#">Instagram</a></li>
-              <li><a href="#">Google Reviews</a></li>
-              <li><a href="#">WhatsApp</a></li>
+              <li><a href="https://www.instagram.com/smartmenssalon" target="_blank" rel="noopener">Instagram</a></li>
+              <li><a href="https://www.google.com/maps/search/?api=1&query=SMART+Men%27s+Salon" target="_blank" rel="noopener">Google Reviews</a></li>
+              <li><a href={`https://wa.me/${t.whatsappNumber}`} target="_blank" rel="noopener">WhatsApp</a></li>
             </ul>
           </div>
         </div>
         <div className="bottom">
-          <span>© 2026 SMART Men's Salon</span>
+          <span>© {new Date().getFullYear()} SMART Men's Salon · smartsalon.co.in</span>
           <span>Designed for the chair</span>
         </div>
       </div>
@@ -929,10 +1110,8 @@ function App() {
   const [t, setTweak] = useTweaks(TWEAK_DEFAULTS);
   const [preselectedService, setPreselectedService] = useState(null);
 
-  // Apply primary color to CSS variable
   useEffect(() => {
     document.documentElement.style.setProperty('--blue', t.primaryColor);
-    // Derive a darker variant for hover
     document.documentElement.style.setProperty('--blue-700', t.primaryColor);
   }, [t.primaryColor]);
 
@@ -952,7 +1131,7 @@ function App() {
       <Footer t={t} />
       <StickyMobile t={t} />
 
-      <TweaksPanel>
+      {new URLSearchParams(window.location.search).has('tweaks') && (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') && <TweaksPanel>
         <TweakSection label="Brand" />
         <TweakColor
           label="Primary color"
@@ -1016,9 +1195,11 @@ function App() {
           value={t.showGallery}
           onChange={v => setTweak('showGallery', v)}
         />
-      </TweaksPanel>
+      </TweaksPanel>}
     </>
   );
 }
 
 ReactDOM.createRoot(document.getElementById("root")).render(<App />);
+
+

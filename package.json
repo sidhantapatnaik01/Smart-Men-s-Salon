@@ -1,0 +1,24 @@
+{
+  "name": "smart-men-s-salon-main",
+  "version": "1.0.0",
+  "description": "Premium men's grooming studio website in Nabarangpur, Odisha.",
+  "main": "extract.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sidhantapatnaik01/Smart-Men-s-Salon.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/sidhantapatnaik01/Smart-Men-s-Salon/issues"
+  },
+  "homepage": "https://github.com/sidhantapatnaik01/Smart-Men-s-Salon#readme",
+  "devDependencies": {
+    "esbuild": "^0.28.0"
+  }
+}
