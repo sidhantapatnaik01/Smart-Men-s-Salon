@@ -348,7 +348,7 @@ function TopNav() {
     <nav className="topnav">
       <div className="container row">
         <a href="#" onClick={scrollToTop} className="logo-mark" style={{textDecoration:'none'}}>
-          <img src="logo.png" alt="SMART Men's Salon" className="logo-img" />
+          <img src="images/logo-large.png" alt="SMART Men's Salon" className="logo-img" />
         </a>
         <div className="links">
           <a href="#services">Services</a>
@@ -399,7 +399,7 @@ function Hero({ t }) {
       <TopNav />
       <div className="container content">
         <div className="hero-logo" style={{ marginBottom: 24 }}>
-          <img src="images/logo-large.png" alt="Smart Men's Salon Logo" style={{ maxHeight: '200px', width: 'auto' }} />
+          <img src="logo.png" alt="Smart Men's Salon Logo" style={{ maxHeight: '200px', width: 'auto' }} />
         </div>
         <div className="eyebrow" style={{color:"rgba(255,255,255,.55)", marginBottom: 18}}>
           <span style={{display:"inline-flex", alignItems:"center", gap: 8}}>
