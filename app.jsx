@@ -438,14 +438,23 @@ function Hero({ t }) {
           </span>
         </div>
         <div style={{ position: 'relative', width: '360px', height: '144px', marginBottom: 16 }}>
+          <style>{`
+            @keyframes glowGradient {
+              0% { background-position: 0% 50%; }
+              50% { background-position: 100% 50%; }
+              100% { background-position: 0% 50%; }
+            }
+          `}</style>
           <div style={{
             position: 'absolute',
-            inset: '-15px',
-            background: 'linear-gradient(90deg, #00cfff, #a600ff, #ff006e, #ff8800)',
-            filter: 'blur(25px) brightness(0.8)',
-            opacity: 0.6,
+            inset: '-10px',
+            background: 'linear-gradient(90deg, #00cfff, #0055ff, #00aaff, #0022aa)',
+            backgroundSize: '300% 300%',
+            filter: 'blur(25px)',
+            opacity: 0.7,
             borderRadius: '20px',
-            zIndex: 0
+            zIndex: 0,
+            animation: 'glowGradient 6s ease infinite'
           }} />
           <div style={{ width: '360px', height: '144px', overflow: 'hidden', position: 'relative', zIndex: 1 }}>
             <img src="images/logo-large.webp" alt="Smart Men's Salon" style={{ width: '360px', position: 'absolute', top: '-192px' }} />
