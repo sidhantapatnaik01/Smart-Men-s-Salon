@@ -1808,9 +1808,9 @@ const SERVICES = {
     blurb: "Cuts, colour-safe styling, and treatments that hold their shape long after you leave the chair.",
     items: [
       { src: "images/hair.png", name: "Haircut", sub: "Classic, fade, taper, scissor", tone: "steel", glyph: <Icon.Scissors size={42} /> },
-      { name: "Hair Styling", sub: "Wash, blow-dry & finish", tone: "cool", glyph: <Icon.Sparkle size={42} /> },
-      { name: "Hair Straightening", sub: "Smoothening & keratin", tone: "default", glyph: <Icon.Bolt size={42} /> },
-      { name: "Hair Treatment", sub: "Scalp & dandruff therapy", tone: "warm", glyph: <Icon.Drop size={42} /> },
+      { src: "images/hair-styling.png", name: "Hair Styling", sub: "Wash, blow-dry & finish", tone: "cool", glyph: <Icon.Sparkle size={42} /> },
+      { src: "images/hair-straightening.png", name: "Hair Straightening", sub: "Smoothening & keratin", tone: "default", glyph: <Icon.Bolt size={42} /> },
+      { src: "images/hair-treatment.png", name: "Hair Treatment", sub: "Scalp & dandruff therapy", tone: "warm", glyph: <Icon.Drop size={42} /> },
     ],
   },
   beard: {
@@ -1818,8 +1818,8 @@ const SERVICES = {
     blurb: "Sculpted edges, smooth finishes, and shapes tailored to your face — every time.",
     items: [
       { src: "images/beard.png", name: "Beard Trim", sub: "Maintain your shape", tone: "amber", glyph: <Icon.Razor size={42} /> },
-      { name: "Beard Shaping", sub: "Sculpt & line-up", tone: "warm", glyph: <Icon.Scissors size={42} /> },
-      { name: "Clean Shave", sub: "Smooth finish", tone: "steel", glyph: <Icon.Razor size={42} /> },
+      { src: "images/beard-shaping.png", name: "Beard Shaping", sub: "Sculpt & line-up", tone: "warm", glyph: <Icon.Scissors size={42} /> },
+      { src: "images/clean-shave.png", name: "Clean Shave", sub: "Smooth finish", tone: "steel", glyph: <Icon.Razor size={42} /> },
     ],
   },
   skin: {
@@ -1827,15 +1827,15 @@ const SERVICES = {
     blurb: "Quick, no-fuss skincare for men — designed to look natural, never overdone.",
     items: [
       { src: "images/skin.png", name: "Clean Up", sub: "Refresh & deep cleanse", tone: "cool", glyph: <Icon.Drop size={42} /> },
-      { name: "Skin Brightening", sub: "Even tone, healthy glow", tone: "default", glyph: <Icon.Sparkle size={42} /> },
-      { name: "Facial", sub: "Massage, mask, finish", tone: "warm", glyph: <Icon.Heart size={42} /> },
+      { src: "images/gallery4.png", name: "Skin Brightening", sub: "Even tone, healthy glow", tone: "default", glyph: <Icon.Sparkle size={42} /> },
+      { src: "images/gallery4.png", name: "Facial", sub: "Massage, mask, finish", tone: "warm", glyph: <Icon.Heart size={42} /> },
     ],
   },
   packages: {
     label: "Packages",
     blurb: "Full-service grooming sessions for the days that matter most.",
     items: [
-      { name: "Groom Package", sub: "Hair · Beard · Clean Up", tone: "amber", glyph: <Icon.Crown size={42} /> },
+      { src: "images/package.png", name: "Groom Package", sub: "Hair · Beard · Clean Up", tone: "amber", glyph: <Icon.Crown size={42} /> },
       { src: "images/package.png", name: "Wedding Groom Package", sub: "Full-day premium experience", tone: "warm", glyph: <Icon.Crown size={42} /> },
     ],
   },
@@ -1942,11 +1942,11 @@ const GALLERY = [
   { src: "images/gallery3.png", tone: "amber", small: "INTERIOR", caption: "Studio chair · 03" },
   { src: "images/gallery4.png", tone: "cool",  small: "FACIAL / 04", caption: "Clean up + glow" },
   { src: "images/gallery5.png", tone: "default", small: "WASH", caption: "Wash & blow-dry" },
-  { tone: "warm", small: "BEFORE / AFTER", caption: "Wedding groom" },
-  { tone: "steel", small: "DETAIL", caption: "Smooth finish" },
-  { tone: "amber", small: "STYLE", caption: "Side-part finish" },
-  { tone: "cool",  small: "INTERIOR / 02", caption: "Mirror wall" },
-  { tone: "default", small: "PROCESS", caption: "Clipper detail" },
+  { src: "images/package.png", tone: "warm", small: "BEFORE / AFTER", caption: "Wedding groom" },
+  { src: "images/hair-styling.png", tone: "steel", small: "DETAIL", caption: "Smooth finish" },
+  { src: "images/hair-straightening.png", tone: "amber", small: "STYLE", caption: "Side-part finish" },
+  { src: "images/Salon Exterior.png", tone: "cool",  small: "INTERIOR / 02", caption: "Mirror wall" },
+  { src: "images/clean-shave.png", tone: "default", small: "PROCESS", caption: "Clipper detail" },
 ];
 
 function Gallery({ t }) {
