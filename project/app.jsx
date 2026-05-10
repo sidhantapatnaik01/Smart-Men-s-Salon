@@ -1,5 +1,5 @@
 /* SMART Men's Salon — App */
-const { useState, useEffect, useMemo, useRef } = React;
+const { useState, useEffect, useMemo, useRef, useCallback } = React;
 
 const TWEAK_DEFAULTS = /*EDITMODE-BEGIN*/{
   "primaryColor": "#2563EB",
@@ -429,7 +429,24 @@ const ALL_SERVICES = [
   "Clean Up", "Skin Brightening", "Facial",
   "Groom Package", "Wedding Groom Package",
 ];
-// TIME_SLOTS is dynamically computed below
+const TIME_SLOTS = ["10:00 AM", "12:00 PM", "02:00 PM", "04:00 PM", "06:00 PM", "08:00 PM"];
+
+function slotTo24h(slot) {
+  const [hm, ampm] = slot.split(" ");
+  const [h] = hm.split(":").map(Number);
+  if (ampm === "AM") return h === 12 ? 0 : h;
+  return h === 12 ? 12 : h + 12;
+}
+
+// Salon closes at 13:00 on Thursdays, 21:00 every other day.
+function getClosingHour(isoDate) {
+  return new Date(isoDate).getDay() === 4 ? 13 : 21;
+}
+
+function getSlotsForDay(isoDate) {
+  const close = getClosingHour(isoDate);
+  return TIME_SLOTS.filter(s => slotTo24h(s) < close);
+}
 
 function getNextDays(n = 7) {
   const days = [];
@@ -453,31 +470,23 @@ function Booking({ preselectedService, onClearPreselect, t }) {
   const [phone, setPhone] = useState("");
   const [services, setServices] = useState([]);
   const [day, setDay] = useState(days[0].iso);
-  const [time, setTime] = useState("07:00 AM");
+  const [time, setTime] = useState(() => getSlotsForDay(days[0].iso)[0] ?? TIME_SLOTS[0]);
+
+  const selectDay = useCallback((iso) => {
+    setDay(iso);
+    const valid = getSlotsForDay(iso);
+    setTime(prev => valid.includes(prev) ? prev : (valid[0] ?? TIME_SLOTS[0]));
+  }, []);
   const [notes, setNotes] = useState("");
 
   useEffect(() => {
     if (preselectedService && !services.includes(preselectedService)) {
       setServices(s => [...s, preselectedService]);
       onClearPreselect && onClearPreselect();
-      // smooth scroll to booking
       const el = document.getElementById("book");
       if (el) el.scrollIntoView({behavior: "smooth", block: "start"});
     }
   }, [preselectedService]);
-
-  const availableSlots = useMemo(() => {
-    const isThursday = day && new Date(day).getDay() === 4;
-    return isThursday 
-      ? ["07:00 AM", "09:00 AM", "10:30 AM", "12:00 PM"] 
-      : ["07:00 AM", "09:00 AM", "11:00 AM", "01:00 PM", "03:00 PM", "05:00 PM", "07:00 PM", "08:30 PM"];
-  }, [day]);
-
-  useEffect(() => {
-    if (!availableSlots.includes(time)) {
-      setTime(availableSlots[0]);
-    }
-  }, [availableSlots, time]);
 
   const toggleService = (s) =>
     setServices(prev => prev.includes(s) ? prev.filter(x => x !== s) : [...prev, s]);
@@ -574,7 +583,7 @@ ${notes || "—"}`;
                       key={d.iso}
                       type="button"
                       className={"day-pill " + (day === d.iso ? "is-active" : "")}
-                      onClick={() => setDay(d.iso)}
+                      onClick={() => selectDay(d.iso)}
                     >
                       <span className="dom">{d.dom}</span>
                       <span className="dow">{d.dow}</span>
@@ -582,7 +591,7 @@ ${notes || "—"}`;
                   ))}
                 </div>
                 <div className="scroll-x no-scrollbar">
-                  {availableSlots.map(t => (
+                  {getSlotsForDay(day).map(t => (
                     <button
                       key={t}
                       type="button"

@@ -1,0 +1,9 @@
+node_modules/
+dist/
+.DS_Store
+Thumbs.db
+images/RAW/
+.gstack/
+.vibecheck/
+*.tmp
+*.log
