@@ -4,7 +4,7 @@
   "description": "Premium men's grooming studio website in Nabarangpur, Odisha.",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "esbuild app.jsx --bundle --minify --target=es2020 --outfile=app.js"
+    "build:local": "esbuild app.jsx --bundle --minify --target=es2020 --outfile=app.js"
   },
   "repository": {
     "type": "git",
