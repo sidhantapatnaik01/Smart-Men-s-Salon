@@ -2,9 +2,9 @@
   "name": "smart-men-s-salon-main",
   "version": "1.0.0",
   "description": "Premium men's grooming studio website in Nabarangpur, Odisha.",
-  "main": "extract.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "esbuild app.jsx --bundle --minify --target=es2020 --outfile=app.js"
   },
   "repository": {
     "type": "git",
