@@ -366,18 +366,34 @@ function TopNav() {
 
 /* ============== Hero ============== */
 function Hero({ t }) {
+  const [currentBg, setCurrentBg] = React.useState(0);
+  const images = ["images/hero.png", "images/Salon Exterior.png"];
+
+  React.useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentBg(prev => (prev + 1) % images.length);
+    }, 5000);
+    return () => clearInterval(interval);
+  }, []);
+
   return (
     <header className="hero">
-      <div className="bg">
-        <Photo src="images/hero.png" eager tone="warm" label="HERO · GROOMING SHOT · 1.0" style={{position:"absolute", inset:0}}
-          glyph={
-            <svg width="40%" viewBox="0 0 100 140" fill="none" stroke="rgba(255,255,255,0.06)" strokeWidth="0.4">
-              <ellipse cx="50" cy="44" rx="20" ry="24"/>
-              <path d="M30 70 Q30 130 50 130 Q70 130 70 70"/>
-              <path d="M34 30 Q40 18 50 18 Q60 18 66 30"/>
-            </svg>
-          }
-        />
+      <div className="bg" style={{ position: 'relative' }}>
+        {images.map((src, index) => (
+          <Photo 
+            key={src}
+            src={src} 
+            eager={index === 0} 
+            tone="warm" 
+            label={`HERO · IMAGE ${index + 1}`} 
+            style={{
+              position:"absolute", 
+              inset:0, 
+              opacity: currentBg === index ? 1 : 0,
+              transition: 'opacity 1s ease-in-out'
+            }}
+          />
+        ))}
       </div>
       <TopNav />
       <div className="container content">
