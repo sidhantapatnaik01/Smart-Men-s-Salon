@@ -378,7 +378,7 @@ function Hero({ t }) {
 
   return (
     <header className="hero">
-      <div className="bg" style={{ position: 'relative' }}>
+      <div className="bg">
         {images.map((src, index) => (
           <Photo 
             key={src}
@@ -398,7 +398,7 @@ function Hero({ t }) {
       <TopNav />
       <div className="container content">
         <div className="hero-logo" style={{ marginBottom: 24 }}>
-          <img src="images/logo-large.png" alt="Smart Men's Salon Logo" style={{ maxHeight: '120px', width: 'auto' }} />
+          <img src="images/logo-large.png" alt="Smart Men's Salon Logo" style={{ maxHeight: '200px', width: 'auto' }} />
         </div>
         <div className="eyebrow" style={{color:"rgba(255,255,255,.55)", marginBottom: 18}}>
           <span style={{display:"inline-flex", alignItems:"center", gap: 8}}>
