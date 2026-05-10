@@ -431,7 +431,7 @@ function Hero({ t }) {
       </div>
       <TopNav />
       <div className="container content">
-        <div className="eyebrow" style={{color:"rgba(10,10,11,.55)", marginBottom: 18}}>
+        <div className="eyebrow" style={{color:"rgba(255,255,255,.55)", marginBottom: 18}}>
           <span style={{display:"inline-flex", alignItems:"center", gap: 8}}>
             <span style={{width:6, height:6, borderRadius:99, background:"#25D366", boxShadow:"0 0 0 4px rgba(37,211,102,.18)"}}></span>
             OPEN TODAY · {t.hours}
