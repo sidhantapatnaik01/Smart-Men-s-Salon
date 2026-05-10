@@ -5,5 +5,6 @@ Thumbs.db
 images/RAW/
 .gstack/
 .vibecheck/
+.claude/settings.local.json
 *.tmp
 *.log
