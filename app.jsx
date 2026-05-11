@@ -214,23 +214,39 @@ const HERO_WORDS = ["DIFFERENT.", "CONFIDENT.", "SHARP.", "FRESH.", "READY."];
 
 function RotatingWord() {
   const [index, setIndex] = useState(0);
-  const [anim, setAnim] = useState("in");
+  const [text, setText] = useState("");
+  const [isDeleting, setIsDeleting] = useState(false);
+  const [speed, setSpeed] = useState(150);
 
   useEffect(() => {
-    const interval = setInterval(() => {
-      setAnim("out");
-      setTimeout(() => {
-        setIndex(i => (i + 1) % HERO_WORDS.length);
-        setAnim("in");
-      }, 400);
-    }, 2800);
-    return () => clearInterval(interval);
-  }, []);
+    const handleTyping = () => {
+      const fullWord = HERO_WORDS[index];
+      
+      if (!isDeleting) {
+        if (text === fullWord) {
+          setIsDeleting(true);
+          setSpeed(2000); // Pause on full word
+          return;
+        }
+        setText(fullWord.substring(0, text.length + 1));
+        setSpeed(120); // Typing speed
+      } else {
+        if (text === "") {
+          setIsDeleting(false);
+          setIndex((prev) => (prev + 1) % HERO_WORDS.length);
+          setSpeed(500); // Pause before next word
+          return;
+        }
+        setText(fullWord.substring(0, text.length - 1));
+        setSpeed(60); // Deleting speed
+      }
+    };
 
-  const word = HERO_WORDS[index];
-  const cls = anim === "in" ? "rot-word rot-in" : "rot-word rot-out";
+    const timer = setTimeout(handleTyping, speed);
+    return () => clearTimeout(timer);
+  }, [text, isDeleting, index, speed]);
 
-  return <em className={cls} key={index + anim}>{word}</em>;
+  return <em className="rot-word">{text}</em>;
 }
 
 function useInView(opts = {}) {
