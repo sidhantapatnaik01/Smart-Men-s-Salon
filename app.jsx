@@ -335,6 +335,9 @@ const Icon = {
   Instagram: ({ size = 18 }) => (
     <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor"/></svg>
   ),
+  Facebook: ({ size = 18 }) => (
+    <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
+  ),
   Google: ({ size = 18 }) => (
     <svg width={size} height={size} viewBox="0 0 24 24" fill="currentColor"><path d="M21.6 12.2c0-.7-.1-1.4-.2-2H12v3.8h5.4c-.2 1.3-1 2.4-2 3.1v2.6h3.3c1.9-1.7 3-4.3 3-7.5z"/><path d="M12 22c2.7 0 5-1 6.7-2.4l-3.3-2.5c-.9.6-2 1-3.4 1-2.6 0-4.8-1.8-5.6-4.1H3v2.6C4.7 19.9 8.1 22 12 22z"/><path d="M6.4 13.9c-.2-.6-.3-1.2-.3-1.9s.1-1.3.3-1.9V7.5H3C2.4 8.9 2 10.4 2 12s.4 3.1 1 4.5l3.4-2.6z"/><path d="M12 5.9c1.5 0 2.8.5 3.8 1.5l2.9-2.9C16.9 3 14.7 2 12 2 8.1 2 4.7 4.1 3 7.5l3.4 2.6c.8-2.4 3-4.2 5.6-4.2z"/></svg>
   ),
@@ -1040,7 +1043,10 @@ function Visit({ t }) {
                 <a href="https://www.instagram.com/smartmenssalon" target="_blank" rel="noopener" className="btn btn-light">
                   <Icon.Instagram size={15}/> Instagram
                 </a>
-                <a href="https://share.google/D1CtypoysJhQvA5Nk" target="_blank" rel="noopener" className="btn btn-light">
+                <a href="https://www.facebook.com/share/18N4HC18Ws/" target="_blank" rel="noopener" className="btn btn-light">
+                  <Icon.Facebook size={15}/> Facebook
+                </a>
+                <a href="https://search.google.com/local/writereview?placeid=ChIJL1kgFWC3OjoRKTXX0cb-Pyo" target="_blank" rel="noopener" className="btn btn-light">
                   <Icon.Google size={15}/> Reviews
                 </a>
               </div>
@@ -1139,7 +1145,8 @@ function Footer({ t }) {
             <h4>Follow</h4>
             <ul>
               <li><a href="https://www.instagram.com/smartmenssalon" target="_blank" rel="noopener">Instagram</a></li>
-              <li><a href="https://share.google/D1CtypoysJhQvA5Nk" target="_blank" rel="noopener">Google Reviews</a></li>
+              <li><a href="https://www.facebook.com/share/18N4HC18Ws/" target="_blank" rel="noopener">Facebook</a></li>
+              <li><a href="https://search.google.com/local/writereview?placeid=ChIJL1kgFWC3OjoRKTXX0cb-Pyo" target="_blank" rel="noopener">Google Reviews</a></li>
               <li><a href={`https://wa.me/${t.whatsappNumber}`} target="_blank" rel="noopener">WhatsApp</a></li>
             </ul>
           </div>
