@@ -986,6 +986,25 @@ function TrustGrid() {
 
 /* ============== Visit ============== */
 function Visit({ t }) {
+  useEffect(() => {
+    const configureLocator = async () => {
+      await customElements.whenDefined('gmpx-store-locator');
+      const locator = document.querySelector('gmpx-store-locator');
+      if (locator) {
+        const CONFIGURATION = {
+          "locations": [
+            {"title":"Smart Men's Salon","address1":"6GHW+RXC, Pathan Street, Nabarangpur, Odisha 764059","address2":"Nabarangpur, Odisha, India","coords":{"lat":19.2295638,"lng":82.547406},"placeId":"ChIJL1kgFWC3OjoRKTXX0cb-Pyo"}
+          ],
+          "mapOptions": {"center":{"lat":19.2295638,"lng":82.547406},"fullscreenControl":true,"mapTypeControl":false,"streetViewControl":false,"zoom":15,"zoomControl":true,"maxZoom":17,"mapId":""},
+          "mapsApiKey": "YOUR_API_KEY_HERE",
+          "capabilities": {"input":true,"autocomplete":true,"directions":true,"distanceMatrix":true,"details":true,"actions":false}
+        };
+        locator.configureFromQuickBuilder(CONFIGURATION);
+      }
+    };
+    configureLocator();
+  }, []);
+
   return (
     <section className="section" id="visit" style={{background:"var(--bg-soft)"}}>
       <div className="container">
@@ -1001,13 +1020,8 @@ function Visit({ t }) {
         <Reveal delay={0.1}>
           <div style={{display:"grid", gridTemplateColumns:"1fr", gap: 24}} className="visit-grid">
             <div className="map">
-              <iframe
-                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d941.803144638959!2d82.5467622695607!3d19.22956506515561!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3a3ab7601520592f%3A0x2a3ffec6d1d73529!2sSmart%20Saloon!5e0!3m2!1sen!2sin!4v1778342471075!5m2!1sen!2sin"
-                allowFullScreen=""
-                loading="lazy"
-                referrerPolicy="no-referrer-when-downgrade"
-                title="SMART Men's Salon — Google Maps location"
-              />
+              <gmpx-api-loader key="YOUR_API_KEY_HERE" solution-channel="GMP_QB_locatorplus_v11_cABCDE"></gmpx-api-loader>
+              <gmpx-store-locator map-id="DEMO_MAP_ID" style={{ width: '100%', height: '100%' }}></gmpx-store-locator>
             </div>
 
             <div style={{display:"flex", flexDirection:"column", gap: 16}}>
