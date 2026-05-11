@@ -1040,7 +1040,7 @@ function Visit({ t }) {
                 <a href="https://www.instagram.com/smartmenssalon" target="_blank" rel="noopener" className="btn btn-light">
                   <Icon.Instagram size={15}/> Instagram
                 </a>
-                <a href="https://www.google.com/maps/search/?api=1&query=SMART+Men%27s+Salon+Nabarangpur" target="_blank" rel="noopener" className="btn btn-light">
+                <a href="https://share.google/D1CtypoysJhQvA5Nk" target="_blank" rel="noopener" className="btn btn-light">
                   <Icon.Google size={15}/> Reviews
                 </a>
               </div>
@@ -1139,7 +1139,7 @@ function Footer({ t }) {
             <h4>Follow</h4>
             <ul>
               <li><a href="https://www.instagram.com/smartmenssalon" target="_blank" rel="noopener">Instagram</a></li>
-              <li><a href="https://www.google.com/maps/search/?api=1&query=SMART+Men%27s+Salon" target="_blank" rel="noopener">Google Reviews</a></li>
+              <li><a href="https://share.google/D1CtypoysJhQvA5Nk" target="_blank" rel="noopener">Google Reviews</a></li>
               <li><a href={`https://wa.me/${t.whatsappNumber}`} target="_blank" rel="noopener">WhatsApp</a></li>
             </ul>
           </div>
