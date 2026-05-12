@@ -1083,7 +1083,7 @@ a { color: inherit; text-decoration: none; }
 .footer {
   background: #0A0A0B;
   color: rgba(255,255,255,.7);
-  padding: 64px 0 28px;
+  padding: 64px 0 120px; /* extra bottom room so the WhatsApp .fab never overlaps the founder credit */
 }
 .footer .grid {
   display: grid;
@@ -1106,36 +1106,46 @@ a { color: inherit; text-decoration: none; }
 .footer ul a { color: rgba(255,255,255,.85); font-size: 15px; }
 .footer ul a:hover { color: #fff; }
 .footer .bottom {
-  margin-top: 56px; padding-top: 24px;
+  margin-top: 56px; padding-top: 28px;
   border-top: 1px solid rgba(255,255,255,.08);
-  display: flex; justify-content: space-between; flex-wrap: wrap; gap: 16px;
+  display: flex; flex-direction: column; align-items: center; gap: 22px;
   font-size: 12px; color: rgba(255,255,255,.45);
   font-family: 'JetBrains Mono', monospace;
   letter-spacing: .08em;
   text-transform: uppercase;
+  text-align: center;
 }
-.founder-credit-row { display: inline-flex; align-items: center; gap: 14px; flex-wrap: wrap; }
+/* Founder credit — its own centered line below the copyright. Breaks free of the
+   bar's mono+uppercase treatment so the brand name reads as a proper attribution. */
+.founder-credit-row {
+  display: inline-flex; align-items: center; gap: 16px; flex-wrap: wrap;
+  justify-content: center;
+  font-family: 'Inter', sans-serif;
+  text-transform: none;
+  letter-spacing: 0;
+}
 .founder-credit {
-  display: inline-flex; align-items: center; gap: 8px;
-  color: rgba(255,255,255,.55) !important;
+  display: inline-flex; align-items: center; gap: 10px;
+  color: rgba(255,255,255,.78) !important;
+  font-size: 14px; font-weight: 500;
   text-decoration: none;
   transition: color .2s ease, transform .2s ease;
 }
 .founder-credit:hover { color: #fff !important; transform: translateY(-1px); }
 .founder-credit-logo {
-  width: auto; height: 20px;
+  width: auto; height: 28px;
   filter: brightness(0) invert(1);
-  opacity: .7;
+  opacity: .85;
   transition: opacity .2s ease;
 }
 .founder-credit:hover .founder-credit-logo { opacity: 1; }
 .founder-credit-icon {
   display: inline-flex; align-items: center; justify-content: center;
-  width: 26px; height: 26px;
-  color: rgba(255,255,255,.55) !important;
-  border: 1px solid rgba(255,255,255,.12);
-  border-radius: 6px;
-  font-size: 13px;
+  width: 32px; height: 32px;
+  color: rgba(255,255,255,.7) !important;
+  border: 1px solid rgba(255,255,255,.18);
+  border-radius: 8px;
+  font-size: 15px;
   text-decoration: none;
   transition: color .2s ease, border-color .2s ease, background .2s ease;
 }
