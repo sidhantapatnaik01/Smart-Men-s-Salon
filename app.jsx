@@ -648,12 +648,12 @@ const GALLERY = [
   { src: "images/gallery1.webp", tone: "warm", small: "FADE / 02", caption: "Mid-fade, scissor finish" },
   { src: "images/gallery2.webp", tone: "steel", small: "BEARD / 01", caption: "Beard line-up" },
   { src: "images/gallery3.webp", tone: "amber", small: "INTERIOR", caption: "Studio chair · 03" },
-  { src: "images/skin.webp", tone: "cool",  small: "FACIAL / 04", caption: "Clean up + glow" },
-  { src: "images/hair-styling.webp", tone: "default", small: "WASH", caption: "Wash & blow-dry" },
+  { src: "images/chairs_perspective.webp", tone: "cool",  small: "CHAIRS", caption: "Comfort & style" },
+  { src: "images/interior_action.webp", tone: "default", small: "STUDIO",    caption: "Studio aisle" },
   { src: "images/package.webp", tone: "warm", small: "BEFORE / AFTER", caption: "Wedding groom" },
-  { src: "images/hair-styling.webp", tone: "steel", small: "DETAIL", caption: "Smooth finish" },
+  { src: "images/interior_wide.webp", tone: "steel", small: "INTERIOR", caption: "Premium setup" },
   { src: "images/hair-straightening.webp", tone: "amber", small: "STYLE", caption: "Side-part finish" },
-  { src: "images/Salon Exterior.webp", tone: "cool",  small: "INTERIOR / 02", caption: "Mirror wall" },
+  { src: "images/exterior.webp", tone: "cool",  small: "EXTERIOR", caption: "Storefront" },
   { src: "images/clean-shave.webp", tone: "default", small: "PROCESS", caption: "Clipper detail" },
 ];
 
