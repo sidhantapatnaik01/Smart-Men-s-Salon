@@ -1153,7 +1153,20 @@ function Footer({ t }) {
         </div>
         <div className="bottom">
           <span>© {new Date().getFullYear()} SMART Men's Salon · smartsalon.co.in</span>
-          <span>Designed for the chair</span>
+          <span className="founder-credit-row">
+            <a
+              href="https://www.linkedin.com/in/sidhanta-patnaik-916143220"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="founder-credit"
+              aria-label="Built by Sidhanta Patnaik — open LinkedIn profile in a new tab"
+            >
+              <img src="images/consulting-logo.webp" alt="" className="founder-credit-logo" aria-hidden="true" />
+              <span>Built by Sidhanta Patnaik</span>
+            </a>
+            <a href="mailto:patnaikcompany@gmail.com" className="founder-credit-icon" aria-label="Email Sidhanta Patnaik">✉</a>
+            <a href="tel:+918917213230" className="founder-credit-icon" aria-label="Call Sidhanta Patnaik">☎</a>
+          </span>
         </div>
       </div>
     </footer>
