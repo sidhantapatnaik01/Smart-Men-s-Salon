@@ -200,8 +200,8 @@ const TWEAK_DEFAULTS = {
   "headlineLine1": "LOOK SHARP.",
   "headlineLine2": "FEEL DIFFERENT.",
   "heroSub": "Know what you're getting before you walk in. Browse services, pick your slot, and confirm on WhatsApp — no calls, no waiting.",
-  "phone": "+91 94378 50989",
-  "whatsappNumber": "919437850989",
+  "phone": "+91 99385 67848",
+  "whatsappNumber": "919938567848",
   "address": "Pathan Street",
   "city": "Nabarangpur, Odisha 764059 · India",
   "hours": "07:00 — 21:00 (Thu till 13:00)",
@@ -1029,7 +1029,12 @@ function Visit({ t }) {
               <InfoBlock
                 icon={<Icon.Phone/>}
                 label="Phone"
-                value={t.phone}
+                value={
+                  <>
+                    <div>+91 99385 67848</div>
+                    <div style={{ fontSize: '15px', color: 'var(--muted)', fontWeight: '500', marginTop: '2px' }}>+91 94378 50989</div>
+                  </>
+                }
                 caption="Call or WhatsApp"
               />
 
@@ -1138,7 +1143,8 @@ function Footer({ t }) {
             <ul>
               <li><a href="#visit">{t.address}, Nabarangpur</a></li>
               <li><a href="#visit">{t.hours}</a></li>
-              <li><a href={`tel:${t.phone.replace(/\s/g,'')}`}>{t.phone}</a></li>
+              <li><a href="tel:+919938567848">+91 99385 67848</a></li>
+              <li><a href="tel:+919437850989">+91 94378 50989</a></li>
             </ul>
           </div>
           <div>
