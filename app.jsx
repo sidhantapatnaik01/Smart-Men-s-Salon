@@ -1174,7 +1174,8 @@ function Footer({ t }) {
               <span>Built by Sidhanta Patnaik</span>
             </a>
             <a href="mailto:patnaikcompany@gmail.com" className="founder-credit-icon" aria-label="Email Sidhanta Patnaik">✉</a>
-            <a href="tel:+918917213230" className="founder-credit-icon" aria-label="Call Sidhanta Patnaik">☎</a>
+            <a href="https://wa.me/918917213230" target="_blank" rel="noopener" className="founder-credit-icon" aria-label="WhatsApp Sidhanta Patnaik">💬</a>
+            <a href="https://www.instagram.com/patnaik_and_company" target="_blank" rel="noopener" className="founder-credit-icon" aria-label="Instagram @patnaik_and_company"><Icon.Instagram size={15}/></a>
           </span>
         </div>
       </div>
