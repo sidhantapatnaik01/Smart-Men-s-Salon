@@ -201,7 +201,7 @@ const TWEAK_DEFAULTS = {
   "headlineLine2": "FEEL DIFFERENT.",
   "heroSub": "Know what you're getting before you walk in. Browse services, pick your slot, and confirm on WhatsApp — no calls, no waiting.",
   "phone": "+91 99385 67848",
-  "whatsappNumber": "919938567848",
+  "whatsappNumber": "919437850989",
   "address": "Pathan Street",
   "city": "Nabarangpur, Odisha 764059 · India",
   "hours": "07:00 — 21:00 (Thu till 13:00)",
@@ -343,6 +343,9 @@ const Icon = {
   ),
   Map: ({ size = 18 }) => (
     <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round"><polygon points="1 6 1 22 8 18 16 22 23 18 23 2 16 6 8 2 1 6"/><line x1="8" y1="2" x2="8" y2="18"/><line x1="16" y1="6" x2="16" y2="22"/></svg>
+  ),
+  Email: ({ size = 18 }) => (
+    <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round"><rect x="2" y="4" width="20" height="16" rx="3"/><polyline points="22 7 12 14 2 7"/></svg>
   ),
 };
 
@@ -1045,8 +1048,8 @@ function Visit({ t }) {
                 <a href="https://www.google.com/maps/dir/?api=1&destination=Smart+Saloon,+Pathan+Street,+Nabarangpur,+Odisha" target="_blank" rel="noopener" className="btn btn-light">
                   <Icon.Map size={15}/> Get Directions
                 </a>
-                <a href="https://www.instagram.com/smartmenssalon" target="_blank" rel="noopener" className="btn btn-light">
-                  <Icon.Instagram size={15}/> Instagram
+                <a href="mailto:smartsalonformen@yahoo.com" className="btn btn-light">
+                  <Icon.Email size={15}/> Email Us
                 </a>
                 <a href="https://www.facebook.com/share/18N4HC18Ws/" target="_blank" rel="noopener" className="btn btn-light">
                   <Icon.Facebook size={15}/> Facebook
