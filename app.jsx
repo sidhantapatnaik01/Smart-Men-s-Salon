@@ -537,17 +537,17 @@ const SERVICES = {
     label: "Skin",
     blurb: "Quick, no-fuss skincare for men — designed to look natural, never overdone.",
     items: [
-      { src: "images/skin.webp", name: "Clean Up", sub: "Refresh & deep cleanse", tone: "cool", glyph: <Icon.Drop size={42} /> },
-      { src: "images/skin.webp", name: "Skin Brightening", sub: "Even tone, healthy glow", tone: "default", glyph: <Icon.Sparkle size={42} /> },
-      { src: "images/skin.webp", name: "Facial", sub: "Massage, mask, finish", tone: "warm", glyph: <Icon.Heart size={42} /> },
+      { src: "images/skin-cleanup.webp", name: "Clean Up", sub: "Refresh & deep cleanse", tone: "cool", glyph: <Icon.Drop size={42} /> },
+      { src: "images/skin-brightening.webp", name: "Skin Brightening", sub: "Even tone, healthy glow", tone: "default", glyph: <Icon.Sparkle size={42} /> },
+      { src: "images/skin-facial.webp", name: "Facial", sub: "Massage, mask, finish", tone: "warm", glyph: <Icon.Heart size={42} /> },
     ],
   },
   packages: {
     label: "Packages",
     blurb: "Full-service grooming sessions for the days that matter most.",
     items: [
-      { src: "images/package.webp", name: "Groom Package", sub: "Hair · Beard · Clean Up", tone: "amber", glyph: <Icon.Crown size={42} /> },
-      { src: "images/package.webp", name: "Wedding Groom Package", sub: "Full-day premium experience", tone: "warm", glyph: <Icon.Crown size={42} /> },
+      { src: "images/pkg-groom.webp", name: "Groom Package", sub: "Hair · Beard · Clean Up", tone: "amber", glyph: <Icon.Crown size={42} /> },
+      { src: "images/pkg-wedding.webp", name: "Wedding Groom Package", sub: "Full-day premium experience", tone: "warm", glyph: <Icon.Crown size={42} /> },
     ],
   },
 };
