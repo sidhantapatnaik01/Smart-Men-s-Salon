@@ -653,11 +653,11 @@ const GALLERY = [
   { src: "images/gallery3.webp", tone: "amber", small: "INTERIOR", caption: "Studio chair · 03" },
   { src: "images/chairs_perspective.webp", tone: "cool",  small: "CHAIRS", caption: "Comfort & style" },
   { src: "images/interior_action.webp", tone: "default", small: "STUDIO",    caption: "Studio aisle" },
-  { src: "images/package.webp", tone: "warm", small: "BEFORE / AFTER", caption: "Wedding groom" },
+  { src: "images/gallery-before-after.webp", tone: "warm", small: "BEFORE / AFTER", caption: "Wedding groom" },
   { src: "images/interior_wide.webp", tone: "steel", small: "INTERIOR", caption: "Premium setup" },
-  { src: "images/hair-straightening.webp", tone: "amber", small: "STYLE", caption: "Side-part finish" },
+  { src: "images/gallery-style.webp", tone: "amber", small: "STYLE", caption: "Side-part finish" },
   { src: "images/exterior.webp", tone: "cool",  small: "EXTERIOR", caption: "Storefront" },
-  { src: "images/clean-shave.webp", tone: "default", small: "PROCESS", caption: "Clipper detail" },
+  { src: "images/gallery-process.webp", tone: "default", small: "PROCESS", caption: "Clipper detail" },
 ];
 
 function Gallery({ t }) {
@@ -1099,7 +1099,7 @@ function FinalCTA({ t }) {
   return (
     <section className="final-cta">
       <div className="bg">
-        <Photo src="images/gallery1.webp" tone="warm" style={{position:"absolute", inset:0}}/>
+        <Photo src="images/visit-bg.webp" tone="warm" style={{position:"absolute", inset:0}}/>
       </div>
       <Reveal>
         <div className="container inner">
