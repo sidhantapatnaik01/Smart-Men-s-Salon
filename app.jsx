@@ -1170,7 +1170,7 @@ function Footer({ t }) {
               className="founder-credit"
               aria-label="Built by Sidhanta Patnaik — open LinkedIn profile in a new tab"
             >
-              <img src="images/consulting-logo.webp" alt="" className="founder-credit-logo" aria-hidden="true" />
+              <img src="patnaik-logo.png" alt="" className="founder-credit-logo" aria-hidden="true" />
               <span>Built by Sidhanta Patnaik</span>
             </a>
             <a href="mailto:patnaikcompany@gmail.com" className="founder-credit-icon" aria-label="Email Sidhanta Patnaik">✉</a>
