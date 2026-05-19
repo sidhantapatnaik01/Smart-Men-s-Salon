@@ -250,7 +250,7 @@ function RotatingWord() {
 }
 
 function useInView(opts = {}) {
-  const { threshold = 0.15, once = true } = opts;
+  const { threshold = 0.1, once = true } = opts;
   const ref = useRef(null);
   const [visible, setVisible] = useState(false);
   useEffect(() => {
@@ -259,7 +259,7 @@ function useInView(opts = {}) {
     const io = new IntersectionObserver(([e]) => {
       if (e.isIntersecting) { setVisible(true); if (once) io.disconnect(); }
       else if (!once) setVisible(false);
-    }, { threshold });
+    }, { threshold, rootMargin: '0px 0px -50px 0px' });
     io.observe(el);
     return () => io.disconnect();
   }, [threshold, once]);
@@ -1186,15 +1186,21 @@ function Footer({ t }) {
 /* ============== Sticky controls ============== */
 function StickyMobile({ t }) {
   const [show, setShow] = useState(false);
+  const rafRef = useRef(null);
 
   useEffect(() => {
     const handleScroll = () => {
-      // Show sticky CTA after scrolling past 300px (approx hero top section)
-      setShow(window.scrollY > 300);
+      if (rafRef.current) cancelAnimationFrame(rafRef.current);
+      rafRef.current = requestAnimationFrame(() => {
+        setShow(window.scrollY > 300);
+      });
     };
     window.addEventListener("scroll", handleScroll, { passive: true });
     handleScroll(); // Check on mount
-    return () => window.removeEventListener("scroll", handleScroll);
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+      if (rafRef.current) cancelAnimationFrame(rafRef.current);
+    };
   }, []);
 
   return (
