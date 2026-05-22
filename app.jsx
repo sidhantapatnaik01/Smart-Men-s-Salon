@@ -1,6 +1,7 @@
 
 import React from 'react';
 import { createRoot } from 'react-dom/client';
+import { Analytics } from '@vercel/analytics/react';
 
 // ── useTweaks ───────────────────────────────────────────────────────────────
 function useTweaks(defaults) {
@@ -1245,6 +1246,7 @@ function App() {
       <FinalCTA t={t} />
       <Footer t={t} />
       <StickyMobile t={t} />
+      <Analytics />
 
       {new URLSearchParams(window.location.search).has('tweaks') && (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') && <TweaksPanel>
         <TweakSection label="Brand" />
